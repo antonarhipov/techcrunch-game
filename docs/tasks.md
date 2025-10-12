@@ -306,192 +306,192 @@ This document contains the detailed technical task list for building the **Choos
 ### 6.1 Layout and Panels
 *Plan: 6.1 | Requirements: 14*
 
-- [ ] **6.1.1** Create `src/components/GameLayout.tsx` component
-- [ ] **6.1.2** Implement three-panel grid layout using CSS Grid or Flexbox
-- [ ] **6.1.3** Desktop layout: left panel (40%), right panel (60%), bottom meter (full width)
-- [ ] **6.1.4** Make each panel independently scrollable with `overflow-auto`
-- [ ] **6.1.5** Set main container to `h-screen overflow-hidden` (no main scrolling)
-- [ ] **6.1.6** Implement responsive breakpoints: tablet (stack scenario + console vertically, meter bottom), mobile (full stack)
-- [ ] **6.1.7** Apply Tailwind CSS classes for spacing, borders, shadows
-- [ ] **6.1.8** Add props for children: `scenarioPanel`, `consolePanel`, `meterPanel`
-- [ ] **6.1.9** Test layout on different screen sizes (desktop, tablet, mobile)
-- [ ] **6.1.10** Ensure layout doesn't break with overflowing content
+- [x] **6.1.1** Create `src/components/GameLayout.tsx` component
+- [x] **6.1.2** Implement three-panel grid layout using CSS Grid or Flexbox
+- [x] **6.1.3** Desktop layout: left panel (40%), right panel (60%), bottom meter (full width)
+- [x] **6.1.4** Make each panel independently scrollable with `overflow-auto`
+- [x] **6.1.5** Set main container to `h-screen overflow-hidden` (no main scrolling)
+- [x] **6.1.6** Implement responsive breakpoints: tablet (stack scenario + console vertically, meter bottom), mobile (full stack)
+- [x] **6.1.7** Apply Tailwind CSS classes for spacing, borders, shadows
+- [x] **6.1.8** Add props for children: `scenarioPanel`, `consolePanel`, `meterPanel`
+- [x] **6.1.9** Test layout on different screen sizes (desktop, tablet, mobile)
+- [x] **6.1.10** Ensure layout doesn't break with overflowing content
 
 ### 6.2 Scenario Panel Component
 *Plan: 6.2 | Requirements: 3, 4*
 
-- [ ] **6.2.1** Create `src/components/ScenarioPanel.tsx` component
-- [ ] **6.2.2** Accept props: `step: Step`, `onChoiceSelect: (choice: "A" | "B") => void`, `disabled: boolean`
-- [ ] **6.2.3** Display step title with large, bold typography
-- [ ] **6.2.4** Display step subtitle (if present) with smaller, muted text
-- [ ] **6.2.5** Display scenario text with good line height and readable font size
-- [ ] **6.2.6** Create choice card component for each option (A and B)
-- [ ] **6.2.7** Display choice label prominently and body text below
-- [ ] **6.2.8** Implement hover state: slight scale, shadow, border highlight
-- [ ] **6.2.9** Implement click handler calling `onChoiceSelect(choice)`
-- [ ] **6.2.10** Disable cards when `disabled` prop is true (gray out, no hover, no click)
-- [ ] **6.2.11** Add keyboard navigation: Tab to focus cards, Enter/Space to select
-- [ ] **6.2.12** Add ARIA labels: `role="button"`, `aria-label="Choose option A: {label}"`
-- [ ] **6.2.13** Style with Tailwind: cards, spacing, typography, colors
-- [ ] **6.2.14** Test with different scenario text lengths (short, long, very long)
+- [x] **6.2.1** Create `src/components/ScenarioPanel.tsx` component
+- [x] **6.2.2** Accept props: `step: Step`, `onChoiceSelect: (choice: "A" | "B") => void`, `disabled: boolean`
+- [x] **6.2.3** Display step title with large, bold typography
+- [x] **6.2.4** Display step subtitle (if present) with smaller, muted text
+- [x] **6.2.5** Display scenario text with good line height and readable font size
+- [x] **6.2.6** Create choice card component for each option (A and B)
+- [x] **6.2.7** Display choice label prominently and body text below
+- [x] **6.2.8** Implement hover state: slight scale, shadow, border highlight
+- [x] **6.2.9** Implement click handler calling `onChoiceSelect(choice)`
+- [x] **6.2.10** Disable cards when `disabled` prop is true (gray out, no hover, no click)
+- [x] **6.2.11** Add keyboard navigation: Tab to focus cards, Enter/Space to select
+- [x] **6.2.12** Add ARIA labels: `role="button"`, `aria-label="Choose option A: {label}"`
+- [x] **6.2.13** Style with Tailwind: cards, spacing, typography, colors
+- [x] **6.2.14** Test with different scenario text lengths (short, long, very long)
 
 ### 6.3 Junie Console Component
 *Plan: 6.3 | Requirements: 6*
 
-- [ ] **6.3.1** Create `src/components/JunieConsole.tsx` component
-- [ ] **6.3.2** Accept props: `logs: LogEntry[]`, `isStreaming: boolean`
-- [ ] **6.3.3** Define `LogEntry` interface: `{ type: "info" | "success" | "warning" | "error"; text: string; timestamp?: string; codeDiff?: string }`
-- [ ] **6.3.4** Render console header with "Junie Console" title and status indicator
-- [ ] **6.3.5** Render log list with scrollable container
-- [ ] **6.3.6** Style log entries by type: info (blue), success (green), warning (yellow), error (red)
-- [ ] **6.3.7** Render code diffs with syntax highlighting using `react-syntax-highlighter` (lazy-loaded)
-- [ ] **6.3.8** Format diffs with +/- line prefixes and appropriate colors
-- [ ] **6.3.9** Implement streaming animation: fade-in each log entry with slight delay
-- [ ] **6.3.10** Auto-scroll to bottom when new logs appear (useEffect with ref.scrollIntoView)
-- [ ] **6.3.11** Add "Clear Console" button (optional, for long sessions)
-- [ ] **6.3.12** Style console to look like terminal: monospace font, dark background, light text
-- [ ] **6.3.13** Test with rapid log streaming (ensure performance is smooth)
-- [ ] **6.3.14** Implement accessibility: screen reader announces new logs (aria-live="polite")
+- [x] **6.3.1** Create `src/components/JunieConsole.tsx` component
+- [x] **6.3.2** Accept props: `logs: LogEntry[]`, `isStreaming: boolean`
+- [x] **6.3.3** Define `LogEntry` interface: `{ type: "info" | "success" | "warning" | "error"; text: string; timestamp?: string; codeDiff?: string }`
+- [x] **6.3.4** Render console header with "Junie Console" title and status indicator
+- [x] **6.3.5** Render log list with scrollable container
+- [x] **6.3.6** Style log entries by type: info (blue), success (green), warning (yellow), error (red)
+- [x] **6.3.7** Render code diffs with syntax highlighting using `react-syntax-highlighter` (lazy-loaded)
+- [x] **6.3.8** Format diffs with +/- line prefixes and appropriate colors
+- [x] **6.3.9** Implement streaming animation: fade-in each log entry with slight delay
+- [x] **6.3.10** Auto-scroll to bottom when new logs appear (useEffect with ref.scrollIntoView)
+- [x] **6.3.11** Add "Clear Console" button (optional, for long sessions)
+- [x] **6.3.12** Style console to look like terminal: monospace font, dark background, light text
+- [x] **6.3.13** Test with rapid log streaming (ensure performance is smooth)
+- [x] **6.3.14** Implement accessibility: screen reader announces new logs (aria-live="polite")
 
 ### 6.4 Scaling Meter Component
 *Plan: 6.4 | Requirements: 5, 7*
 
-- [ ] **6.4.1** Create `src/components/ScalingMeter.tsx` component
-- [ ] **6.4.2** Accept props: `meterState: MeterState`, `previousValue?: number`, `showInsights: boolean`
-- [ ] **6.4.3** Display meter bar as horizontal progress bar with gradient fill
-- [ ] **6.4.4** Display current meter value as large number: "{displayValue}%"
-- [ ] **6.4.5** Display tier badge with emoji and label (e.g., "🚀 Scaling Up")
-- [ ] **6.4.6** Calculate and display delta: `newValue - previousValue` (e.g., "+5.2" in green or "-3.1" in red)
-- [ ] **6.4.7** Animate meter bar fill change with CSS transition (0.5s ease-out)
-- [ ] **6.4.8** Animate tier badge change with fade/scale effect when tier changes
-- [ ] **6.4.9** Display 1-2 insights below meter if `showInsights` is true
-- [ ] **6.4.10** Style insights as small text with icons (e.g., "💰 Revenue momentum strong")
-- [ ] **6.4.11** Implement tier color gradient: crash (red), finding-fit (orange), gaining-steam (yellow), scaling-up (green), breakout (blue/purple)
-- [ ] **6.4.12** Add accessible text alternatives for visual-only info (aria-label for meter bar)
-- [ ] **6.4.13** Test meter with edge values: 0, 50, 100, tier boundaries (29→30, 49→50, etc.)
-- [ ] **6.4.14** Ensure animations respect `skipAnimations` feature flag
+- [x] **6.4.1** Create `src/components/ScalingMeter.tsx` component
+- [x] **6.4.2** Accept props: `meterState: MeterState`, `previousValue?: number`, `showInsights: boolean`
+- [x] **6.4.3** Display meter bar as horizontal progress bar with gradient fill
+- [x] **6.4.4** Display current meter value as large number: "{displayValue}%"
+- [x] **6.4.5** Display tier badge with emoji and label (e.g., "🚀 Scaling Up")
+- [x] **6.4.6** Calculate and display delta: `newValue - previousValue` (e.g., "+5.2" in green or "-3.1" in red)
+- [x] **6.4.7** Animate meter bar fill change with CSS transition (0.5s ease-out)
+- [x] **6.4.8** Animate tier badge change with fade/scale effect when tier changes
+- [x] **6.4.9** Display 1-2 insights below meter if `showInsights` is true
+- [x] **6.4.10** Style insights as small text with icons (e.g., "💰 Revenue momentum strong")
+- [x] **6.4.11** Implement tier color gradient: crash (red), finding-fit (orange), gaining-steam (yellow), scaling-up (green), breakout (blue/purple)
+- [x] **6.4.12** Add accessible text alternatives for visual-only info (aria-label for meter bar)
+- [x] **6.4.13** Test meter with edge values: 0, 50, 100, tier boundaries (29→30, 49→50, etc.)
+- [x] **6.4.14** Ensure animations respect `skipAnimations` feature flag
 
 ### 6.5 Insights Component
 *Plan: 6.5 | Requirements: 7*
 
-- [ ] **6.5.1** Create `src/lib/insights.ts` file
-- [ ] **6.5.2** Implement `getTopDimension(state: Delta): keyof Delta` returning dimension with highest value
-- [ ] **6.5.3** Implement `getBottleneckDimension(state: Delta): keyof Delta` returning dimension with lowest value
-- [ ] **6.5.4** Define insight message templates for each dimension (top and bottom)
-- [ ] **6.5.5** Revenue (R) messages: top ("Revenue momentum strong", "Monetization working"), bottom ("Revenue lagging", "Need pricing strategy")
-- [ ] **6.5.6** Users (U) messages: top ("User growth impressive", "Activation strong"), bottom ("Struggling to acquire users", "Activation needs work")
-- [ ] **6.5.7** System (S) messages: top ("Infrastructure solid", "Scaling smoothly"), bottom ("Infra bottleneck", "Consider autoscaling")
-- [ ] **6.5.8** Customers (C) messages: top ("Customers love you", "Retention excellent"), bottom ("Churn risk", "Need better support")
-- [ ] **6.5.9** Investors (I) messages: top ("Investors confident", "Metrics visibility strong"), bottom ("Story unclear", "Need better reporting")
-- [ ] **6.5.10** Implement `generateInsights(meterState: MeterState, delta?: Delta): string[]` returning 1-2 insights
-- [ ] **6.5.11** Select top dimension insight and optionally bottleneck insight (if significantly lower)
-- [ ] **6.5.12** Ensure insights don't repeat same dimension back-to-back (track last insight)
-- [ ] **6.5.13** Keep insights concise (≤100 characters)
-- [ ] **6.5.14** Write unit tests: verify correct dimension identification, verify message selection
+- [x] **6.5.1** Create `src/lib/insights.ts` file
+- [x] **6.5.2** Implement `getTopDimension(state: Delta): keyof Delta` returning dimension with highest value
+- [x] **6.5.3** Implement `getBottleneckDimension(state: Delta): keyof Delta` returning dimension with lowest value
+- [x] **6.5.4** Define insight message templates for each dimension (top and bottom)
+- [x] **6.5.5** Revenue (R) messages: top ("Revenue momentum strong", "Monetization working"), bottom ("Revenue lagging", "Need pricing strategy")
+- [x] **6.5.6** Users (U) messages: top ("User growth impressive", "Activation strong"), bottom ("Struggling to acquire users", "Activation needs work")
+- [x] **6.5.7** System (S) messages: top ("Infrastructure solid", "Scaling smoothly"), bottom ("Infra bottleneck", "Consider autoscaling")
+- [x] **6.5.8** Customers (C) messages: top ("Customers love you", "Retention excellent"), bottom ("Churn risk", "Need better support")
+- [x] **6.5.9** Investors (I) messages: top ("Investors confident", "Metrics visibility strong"), bottom ("Story unclear", "Need better reporting")
+- [x] **6.5.10** Implement `generateInsights(meterState: MeterState, delta?: Delta): string[]` returning 1-2 insights
+- [x] **6.5.11** Select top dimension insight and optionally bottleneck insight (if significantly lower)
+- [x] **6.5.12** Ensure insights don't repeat same dimension back-to-back (track last insight)
+- [x] **6.5.13** Keep insights concise (≤100 characters)
+- [x] **6.5.14** Write unit tests: verify correct dimension identification, verify message selection
 
 ### 6.6 Start Screen Component
 *Plan: 6.6 | Requirements: 1, 15*
 
-- [ ] **6.6.1** Create `src/components/StartScreen.tsx` component
-- [ ] **6.6.2** Display game title: "Choose Your Own Startup Adventure"
-- [ ] **6.6.3** Display subtitle: "Build an AI Cofounder SaaS"
-- [ ] **6.6.4** Display game description (optional): brief overview of gameplay
-- [ ] **6.6.5** Create "New Run" button (large, prominent)
-- [ ] **6.6.6** Create "Resume" button (secondary style)
-- [ ] **6.6.7** Check for saved run on component mount (useEffect with useGame)
-- [ ] **6.6.8** Disable "Resume" button if no saved run exists
-- [ ] **6.6.9** Show analytics consent checkbox: "Allow anonymous analytics to improve the game"
-- [ ] **6.6.10** Store consent in localStorage (key: "startup-game-analytics-consent")
-- [ ] **6.6.11** Handle "New Run" click: call `startNewRun()`, navigate to game screen
-- [ ] **6.6.12** Handle "Resume" click: call `loadSavedRun()`, navigate to game screen (or show error if load fails)
-- [ ] **6.6.13** Add keyboard navigation and accessibility attributes
-- [ ] **6.6.14** Style with Tailwind: centered layout, attractive visuals, responsive
-- [ ] **6.6.15** Test both flows: new run, resume (with and without saved data)
+- [x] **6.6.1** Create `src/components/StartScreen.tsx` component
+- [x] **6.6.2** Display game title: "Choose Your Own Startup Adventure"
+- [x] **6.6.3** Display subtitle: "Build an AI Cofounder SaaS"
+- [x] **6.6.4** Display game description (optional): brief overview of gameplay
+- [x] **6.6.5** Create "New Run" button (large, prominent)
+- [x] **6.6.6** Create "Resume" button (secondary style)
+- [x] **6.6.7** Check for saved run on component mount (useEffect with useGame)
+- [x] **6.6.8** Disable "Resume" button if no saved run exists
+- [x] **6.6.9** Show analytics consent checkbox: "Allow anonymous analytics to improve the game"
+- [x] **6.6.10** Store consent in localStorage (key: "startup-game-analytics-consent")
+- [x] **6.6.11** Handle "New Run" click: call `startNewRun()`, navigate to game screen
+- [x] **6.6.12** Handle "Resume" click: call `loadSavedRun()`, navigate to game screen (or show error if load fails)
+- [x] **6.6.13** Add keyboard navigation and accessibility attributes
+- [x] **6.6.14** Style with Tailwind: centered layout, attractive visuals, responsive
+- [x] **6.6.15** Test both flows: new run, resume (with and without saved data)
 
 ### 6.7 Ending Screen Component
 *Plan: 6.7 | Requirements: 11, 12, 13*
 
-- [ ] **6.7.1** Create `src/components/EndingScreen.tsx` component
-- [ ] **6.7.2** Accept props: `runState: RunState`, `ending: EndingData`
-- [ ] **6.7.3** Display ending tier emoji and title (e.g., "🦄 Unicorn Ending")
-- [ ] **6.7.4** Display final meter value prominently
-- [ ] **6.7.5** Display ending description (1-2 paragraphs about the outcome)
-- [ ] **6.7.6** Display top 2 positive drivers: "Your strengths: Revenue momentum, User growth"
-- [ ] **6.7.7** Display 1 bottleneck: "Your challenge: Infrastructure scalability"
-- [ ] **6.7.8** Display "next step" suggestion: contextual advice based on ending
-- [ ] **6.7.9** Display path taken: visual representation of choices (e.g., "A → B → A → A → B")
-- [ ] **6.7.10** Create shareable results card as styled div or canvas
-- [ ] **6.7.11** Implement "Share on Twitter" button opening Twitter intent URL with text and image
-- [ ] **6.7.12** Implement "Share on LinkedIn" button (similar flow)
-- [ ] **6.7.13** Implement "Copy Link" button copying shareable link to clipboard
-- [ ] **6.7.14** Create "Replay" button calling `resetRun()` and navigating to start screen
-- [ ] **6.7.15** Display 1-2 alternate path hints: "Curious what happens if you choose Option B at Step 2?"
-- [ ] **6.7.16** Style ending screen with celebration visuals (confetti for high scores, etc.)
-- [ ] **6.7.17** Test with all ending tiers (0-100 range)
+- [x] **6.7.1** Create `src/components/EndingScreen.tsx` component
+- [x] **6.7.2** Accept props: `runState: RunState`, `ending: EndingData`
+- [x] **6.7.3** Display ending tier emoji and title (e.g., "🦄 Unicorn Ending")
+- [x] **6.7.4** Display final meter value prominently
+- [x] **6.7.5** Display ending description (1-2 paragraphs about the outcome)
+- [x] **6.7.6** Display top 2 positive drivers: "Your strengths: Revenue momentum, User growth"
+- [x] **6.7.7** Display 1 bottleneck: "Your challenge: Infrastructure scalability"
+- [x] **6.7.8** Display "next step" suggestion: contextual advice based on ending
+- [x] **6.7.9** Display path taken: visual representation of choices (e.g., "A → B → A → A → B")
+- [x] **6.7.10** Create shareable results card as styled div or canvas
+- [x] **6.7.11** Implement "Share on Twitter" button opening Twitter intent URL with text and image
+- [x] **6.7.12** Implement "Share on LinkedIn" button (similar flow)
+- [x] **6.7.13** Implement "Copy Link" button copying shareable link to clipboard
+- [x] **6.7.14** Create "Replay" button calling `resetRun()` and navigating to start screen
+- [x] **6.7.15** Display 1-2 alternate path hints: "Curious what happens if you choose Option B at Step 2?"
+- [x] **6.7.16** Style ending screen with celebration visuals (confetti for high scores, etc.)
+- [x] **6.7.17** Test with all ending tiers (0-100 range)
 
 ### 6.8 Unluck Popup Component
 *Plan: 6.8 | Requirements: 8, 9*
 
-- [ ] **6.8.1** Create `src/components/UnluckPopup.tsx` component
-- [ ] **6.8.2** Accept props: `unluckResult: UnluckResult | null`, `onClose: () => void`
-- [ ] **6.8.3** Display modal overlay (semi-transparent backdrop)
-- [ ] **6.8.4** Display popup card with message and icon
-- [ ] **6.8.5** For regular unluck: pink background, warning icon (⚠️), "Unluck!" title
-- [ ] **6.8.6** For Perfect Storm: red background, explosion icon (💥), "PERFECT STORM!" title
-- [ ] **6.8.7** Display contextual message from `unluckResult.message`
-- [ ] **6.8.8** Display luck factor: "Gains reduced to {factor}%"
-- [ ] **6.8.9** Implement auto-dismiss after 5 seconds (setTimeout)
-- [ ] **6.8.10** Implement manual close button (X in corner)
-- [ ] **6.8.11** Animate entrance: slide-in from top or fade-in with scale
-- [ ] **6.8.12** Animate exit: fade-out
-- [ ] **6.8.13** Ensure popup doesn't block game progression (can be dismissed immediately)
-- [ ] **6.8.14** Make popup accessible: trap focus inside popup, Escape key to close, aria-modal
-- [ ] **6.8.15** Test with different message lengths (short, long)
+- [x] **6.8.1** Create `src/components/UnluckPopup.tsx` component
+- [x] **6.8.2** Accept props: `unluckResult: UnluckResult | null`, `onClose: () => void`
+- [x] **6.8.3** Display modal overlay (semi-transparent backdrop)
+- [x] **6.8.4** Display popup card with message and icon
+- [x] **6.8.5** For regular unluck: pink background, warning icon (⚠️), "Unluck!" title
+- [x] **6.8.6** For Perfect Storm: red background, explosion icon (💥), "PERFECT STORM!" title
+- [x] **6.8.7** Display contextual message from `unluckResult.message`
+- [x] **6.8.8** Display luck factor: "Gains reduced to {factor}%"
+- [x] **6.8.9** Implement auto-dismiss after 5 seconds (setTimeout)
+- [x] **6.8.10** Implement manual close button (X in corner)
+- [x] **6.8.11** Animate entrance: slide-in from top or fade-in with scale
+- [x] **6.8.12** Animate exit: fade-out
+- [x] **6.8.13** Ensure popup doesn't block game progression (can be dismissed immediately)
+- [x] **6.8.14** Make popup accessible: trap focus inside popup, Escape key to close, aria-modal
+- [x] **6.8.15** Test with different message lengths (short, long)
 
 ### 6.9 Operator Panel Component
 *Plan: 6.9 | Requirements: 10*
 
-- [ ] **6.9.1** Create `src/components/OperatorPanel.tsx` component
-- [ ] **6.9.2** Accept props: `currentMeterState?: MeterState`
-- [ ] **6.9.3** Only render panel if `?operator=true` URL parameter is present
-- [ ] **6.9.4** Display panel as slide-out sidebar (right edge) or collapsible overlay
-- [ ] **6.9.5** Create toggle button to show/hide panel
-- [ ] **6.9.6** Add toggle: "Force Unluck" (checkbox synced with feature flags)
-- [ ] **6.9.7** Add toggle: "Force Perfect Storm" (checkbox)
-- [ ] **6.9.8** Add toggle: "Show Hidden State" (checkbox)
-- [ ] **6.9.9** Add toggle: "Enable Debug Console" (checkbox)
-- [ ] **6.9.10** Add toggle: "Skip Animations" (checkbox)
-- [ ] **6.9.11** Add input: "Fixed Seed" (number input)
-- [ ] **6.9.12** Add slider: "Unluck Factor Override" (range 0.4-0.7)
-- [ ] **6.9.13** Display current hidden state when "Show Hidden State" is enabled: R, U, S, C, I values
-- [ ] **6.9.14** Update feature flags in real-time when toggles change (use useEffect to update URL params or localStorage)
-- [ ] **6.9.15** Style panel with Tailwind: dark background, compact layout, clear labels
-- [ ] **6.9.16** Add "Copy Current State" button (for debugging)
-- [ ] **6.9.17** Test all toggles and inputs, verify they affect game behavior
+- [x] **6.9.1** Create `src/components/OperatorPanel.tsx` component
+- [x] **6.9.2** Accept props: `currentMeterState?: MeterState`
+- [x] **6.9.3** Only render panel if `?operator=true` URL parameter is present
+- [x] **6.9.4** Display panel as slide-out sidebar (right edge) or collapsible overlay
+- [x] **6.9.5** Create toggle button to show/hide panel
+- [x] **6.9.6** Add toggle: "Force Unluck" (checkbox synced with feature flags)
+- [x] **6.9.7** Add toggle: "Force Perfect Storm" (checkbox)
+- [x] **6.9.8** Add toggle: "Show Hidden State" (checkbox)
+- [x] **6.9.9** Add toggle: "Enable Debug Console" (checkbox)
+- [x] **6.9.10** Add toggle: "Skip Animations" (checkbox)
+- [x] **6.9.11** Add input: "Fixed Seed" (number input)
+- [x] **6.9.12** Add slider: "Unluck Factor Override" (range 0.4-0.7)
+- [x] **6.9.13** Display current hidden state when "Show Hidden State" is enabled: R, U, S, C, I values
+- [x] **6.9.14** Update feature flags in real-time when toggles change (use useEffect to update URL params or localStorage)
+- [x] **6.9.15** Style panel with Tailwind: dark background, compact layout, clear labels
+- [x] **6.9.16** Add "Copy Current State" button (for debugging)
+- [x] **6.9.17** Test all toggles and inputs, verify they affect game behavior
 
 ### 6.10 Video Modal Component
 *Plan: 6.10 | Requirements: 21*
 
-- [ ] **6.10.1** Create `src/components/VideoModal.tsx` component
-- [ ] **6.10.2** Accept props: `isOpen: boolean`, `videoSrc: string`, `onClose: () => void`, `onComplete: () => void`
-- [ ] **6.10.3** Display modal overlay with semi-transparent backdrop when `isOpen` is true
-- [ ] **6.10.4** Center video player in viewport using flexbox or grid
-- [ ] **6.10.5** Implement video element with `autoPlay` and `controls` attributes
-- [ ] **6.10.6** Load video from `videoSrc` prop (default: `video/clip1.mp4`)
-- [ ] **6.10.7** Create "Close" or "Skip" button positioned in top-right corner of modal
-- [ ] **6.10.8** Handle video `onEnded` event to call `onComplete()` and auto-close modal
-- [ ] **6.10.9** Handle button click to call `onClose()` immediately
-- [ ] **6.10.10** Prevent modal close on backdrop click (only button or Escape key)
-- [ ] **6.10.11** Implement keyboard handler: Escape key calls `onClose()`, Space/Enter toggles play/pause
-- [ ] **6.10.12** Handle video load error: display error message "Video unavailable" and show "Continue" button
-- [ ] **6.10.13** Dim background game UI when modal is open (backdrop with opacity 0.8)
-- [ ] **6.10.14** Disable pointer events on background content while modal is open
-- [ ] **6.10.15** Add ARIA attributes: `role="dialog"`, `aria-modal="true"`, `aria-label="Video player"`
-- [ ] **6.10.16** Trap focus within modal when open (prevent tabbing to background)
-- [ ] **6.10.17** Style modal with Tailwind: centered, max-width for video, rounded corners, shadow
-- [ ] **6.10.18** Test video playback on different browsers (Chrome, Firefox, Safari)
-- [ ] **6.10.19** Test video controls: play, pause, seek, volume
-- [ ] **6.10.20** Test error handling: invalid video path, network failure
+- [x] **6.10.1** Create `src/components/VideoModal.tsx` component
+- [x] **6.10.2** Accept props: `isOpen: boolean`, `videoSrc: string`, `onClose: () => void`, `onComplete: () => void`
+- [x] **6.10.3** Display modal overlay with semi-transparent backdrop when `isOpen` is true
+- [x] **6.10.4** Center video player in viewport using flexbox or grid
+- [x] **6.10.5** Implement video element with `autoPlay` and `controls` attributes
+- [x] **6.10.6** Load video from `videoSrc` prop (default: `video/clip1.mp4`)
+- [x] **6.10.7** Create "Close" or "Skip" button positioned in top-right corner of modal
+- [x] **6.10.8** Handle video `onEnded` event to call `onComplete()` and auto-close modal
+- [x] **6.10.9** Handle button click to call `onClose()` immediately
+- [x] **6.10.10** Prevent modal close on backdrop click (only button or Escape key)
+- [x] **6.10.11** Implement keyboard handler: Escape key calls `onClose()`, Space/Enter toggles play/pause
+- [x] **6.10.12** Handle video load error: display error message "Video unavailable" and show "Continue" button
+- [x] **6.10.13** Dim background game UI when modal is open (backdrop with opacity 0.8)
+- [x] **6.10.14** Disable pointer events on background content while modal is open
+- [x] **6.10.15** Add ARIA attributes: `role="dialog"`, `aria-modal="true"`, `aria-label="Video player"`
+- [x] **6.10.16** Trap focus within modal when open (prevent tabbing to background)
+- [x] **6.10.17** Style modal with Tailwind: centered, max-width for video, rounded corners, shadow
+- [x] **6.10.18** Test video playback on different browsers (Chrome, Firefox, Safari)
+- [x] **6.10.19** Test video controls: play, pause, seek, volume
+- [x] **6.10.20** Test error handling: invalid video path, network failure
 
 ---
 
@@ -500,31 +500,31 @@ This document contains the detailed technical task list for building the **Choos
 ### 7.1 Step Progression Logic
 *Plan: 7.1 | Requirements: 4, 5*
 
-- [ ] **7.1.1** Create `src/lib/game-flow.ts` file
-- [ ] **7.1.2** Implement `processStepChoice(runState, choice, contentPack, featureFlags): StepProgressionResult` orchestration function
-- [ ] **7.1.3** Extract current step and choice delta from content pack
-- [ ] **7.1.4** Create RNG instance from runState.seed
-- [ ] **7.1.5** Call `updateMeterStateWithUnluck()` to process unluck and update meter
-- [ ] **7.1.6** Generate insights using `generateInsights()` based on new meter state
-- [ ] **7.1.7** Create `StepResult` object with all metadata: stepId, choice, deltas, meter before/after, tier before/after, insights, unluck data, timestamp
-- [ ] **7.1.8** Return `StepProgressionResult` containing: newMeterState, stepResult, isGameComplete
-- [ ] **7.1.9** Set `isGameComplete = true` if currentStep === 5
-- [ ] **7.1.10** Implement `prepareNextStep(runState): number` returning next step ID (or ending indicator)
-- [ ] **7.1.11** Integrate into game component: on choice click → processStepChoice → recordStepResult → update UI → show unluck popup if needed → proceed to next step or ending
+- [x] **7.1.1** Create `src/lib/game-flow.ts` file
+- [x] **7.1.2** Implement `processStepChoice(runState, choice, contentPack, featureFlags): StepProgressionResult` orchestration function
+- [x] **7.1.3** Extract current step and choice delta from content pack
+- [x] **7.1.4** Create RNG instance from runState.seed
+- [x] **7.1.5** Call `updateMeterStateWithUnluck()` to process unluck and update meter
+- [x] **7.1.6** Generate insights using `generateInsights()` based on new meter state
+- [x] **7.1.7** Create `StepResult` object with all metadata: stepId, choice, deltas, meter before/after, tier before/after, insights, unluck data, timestamp
+- [x] **7.1.8** Return `StepProgressionResult` containing: newMeterState, stepResult, isGameComplete
+- [x] **7.1.9** Set `isGameComplete = true` if currentStep === 5
+- [x] **7.1.10** Implement `prepareNextStep(runState): number` returning next step ID (or ending indicator)
+- [x] **7.1.11** Integrate into game component: on choice click → processStepChoice → recordStepResult → update UI → show unluck popup if needed → proceed to next step or ending
 - [ ] **7.1.12** Write integration tests: complete 5-step flow, verify state updates, verify stepHistory
 
 ### 7.2 Video Playback Integration
 *Plan: 7.2 | Requirements: 21*
 
-- [ ] **7.2.1** Update choice selection handler in game component to show video modal before processing choice
-- [ ] **7.2.2** Add state management for video modal: `const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)`
-- [ ] **7.2.3** On choice click: set `isVideoModalOpen = true` and pass video source (`video/clip1.mp4`)
-- [ ] **7.2.4** Implement `handleVideoComplete()` callback: close modal, proceed with game flow (process choice, update meter, show insights)
-- [ ] **7.2.5** Implement `handleVideoClose()` callback: close modal, proceed with game flow (same as complete)
-- [ ] **7.2.6** Check `skipAnimations` feature flag: if true, skip video modal entirely and proceed directly
-- [ ] **7.2.7** Handle async video modal flow: ensure game state doesn't update until video modal closes
-- [ ] **7.2.8** Disable choice buttons while video modal is open (prevent double-clicking)
-- [ ] **7.2.9** Re-enable choice buttons after video modal closes and feedback is displayed
+- [x] **7.2.1** Update choice selection handler in game component to show video modal before processing choice
+- [x] **7.2.2** Add state management for video modal: `const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)`
+- [x] **7.2.3** On choice click: set `isVideoModalOpen = true` and pass video source (`video/clip1.mp4`)
+- [x] **7.2.4** Implement `handleVideoComplete()` callback: close modal, proceed with game flow (process choice, update meter, show insights)
+- [x] **7.2.5** Implement `handleVideoClose()` callback: close modal, proceed with game flow (same as complete)
+- [x] **7.2.6** Check `skipAnimations` feature flag: if true, skip video modal entirely and proceed directly
+- [x] **7.2.7** Handle async video modal flow: ensure game state doesn't update until video modal closes
+- [x] **7.2.8** Disable choice buttons while video modal is open (prevent double-clicking)
+- [x] **7.2.9** Re-enable choice buttons after video modal closes and feedback is displayed
 - [ ] **7.2.10** Test video playback on Chrome (desktop and mobile)
 - [ ] **7.2.11** Test video playback on Firefox
 - [ ] **7.2.12** Test video playback on Safari (desktop and iOS)
@@ -535,67 +535,67 @@ This document contains the detailed technical task list for building the **Choos
 ### 7.3 Junie Console Script Execution
 *Plan: 7.3 | Requirements: 6*
 
-- [ ] **7.3.1** Create `src/lib/console-scripts.ts` file
-- [ ] **7.3.2** Define `ConsoleScript` interface: `{ logs: LogEntry[]; totalDuration: number }`
-- [ ] **7.3.3** Create script for Step 1 Option A (subscriptions): starting logs, Stripe integration logs, billing tiers, completion
-- [ ] **7.3.4** Create script for Step 1 Option B (investor dashboard): starting logs, dashboard setup, charts rendering, completion
-- [ ] **7.3.5** Create script for Step 2 Option A (landing page): starting logs, HTML generation, styling, deployment logs
-- [ ] **7.3.6** Create script for Step 2 Option B (onboarding emails): starting logs, email template creation, SendGrid setup, completion
-- [ ] **7.3.7** Create script for Step 3 Option A (collaboration): starting logs, multi-user features, permissions, completion
-- [ ] **7.3.8** Create script for Step 3 Option B (analytics): starting logs, metrics dashboard, charts, completion
-- [ ] **7.3.9** Create script for Step 4 Option A (autoscaling): starting logs, Kubernetes setup, monitoring, completion
-- [ ] **7.3.10** Create script for Step 4 Option B (AI support): starting logs, chatbot training, integration, completion
-- [ ] **7.3.11** Create script for Step 5 Option A (multilingual): starting logs, i18n setup, translations, completion
-- [ ] **7.3.12** Create script for Step 5 Option B (intl payments): starting logs, payment providers, currency support, completion
-- [ ] **7.3.13** Add optional code diffs to 2-3 scripts (e.g., Step 1A shows Stripe code, Step 2A shows HTML)
-- [ ] **7.3.14** Implement `getConsoleScript(stepId: number, choice: "A" | "B"): ConsoleScript` lookup function
-- [ ] **7.3.15** Integrate with JunieConsole component: stream logs with timing (100-300ms between entries)
+- [x] **7.3.1** Create `src/lib/console-scripts.ts` file
+- [x] **7.3.2** Define `ConsoleScript` interface: `{ logs: LogEntry[]; totalDuration: number }`
+- [x] **7.3.3** Create script for Step 1 Option A (subscriptions): starting logs, Stripe integration logs, billing tiers, completion
+- [x] **7.3.4** Create script for Step 1 Option B (investor dashboard): starting logs, dashboard setup, charts rendering, completion
+- [x] **7.3.5** Create script for Step 2 Option A (landing page): starting logs, HTML generation, styling, deployment logs
+- [x] **7.3.6** Create script for Step 2 Option B (onboarding emails): starting logs, email template creation, SendGrid setup, completion
+- [x] **7.3.7** Create script for Step 3 Option A (collaboration): starting logs, multi-user features, permissions, completion
+- [x] **7.3.8** Create script for Step 3 Option B (analytics): starting logs, metrics dashboard, charts, completion
+- [x] **7.3.9** Create script for Step 4 Option A (autoscaling): starting logs, Kubernetes setup, monitoring, completion
+- [x] **7.3.10** Create script for Step 4 Option B (AI support): starting logs, chatbot training, integration, completion
+- [x] **7.3.11** Create script for Step 5 Option A (multilingual): starting logs, i18n setup, translations, completion
+- [x] **7.3.12** Create script for Step 5 Option B (intl payments): starting logs, payment providers, currency support, completion
+- [x] **7.3.13** Add optional code diffs to 2-3 scripts (e.g., Step 1A shows Stripe code, Step 2A shows HTML)
+- [x] **7.3.14** Implement `getConsoleScript(stepId: number, choice: "A" | "B"): ConsoleScript` lookup function
+- [x] **7.3.15** Integrate with JunieConsole component: stream logs with timing (100-300ms between entries)
 
 ### 7.4 Asset Loading and Fallbacks
 *Plan: 7.4 | Requirements: 16*
 
-- [ ] **7.4.1** Create `src/lib/asset-loader.ts` file
-- [ ] **7.4.2** Define `AssetContext` interface: `{ stepId: number; choice: "A" | "B" }`
-- [ ] **7.4.3** Implement `loadAsset(url: string, context: AssetContext): Promise<AssetData>` fetching asset with timeout (5s)
-- [ ] **7.4.4** Detect asset type from URL extension (jpg, png, mp4, etc.)
-- [ ] **7.4.5** Implement retry logic: retry once on failure with exponential backoff
-- [ ] **7.4.6** Return fallback placeholder on final failure (generic image or simulated text)
-- [ ] **7.4.7** Create `src/components/AssetPreview.tsx` component
-- [ ] **7.4.8** Accept props: `url: string`, `context: AssetContext`, `showRetry: boolean`
-- [ ] **7.4.9** Display loading spinner while asset loads
-- [ ] **7.4.10** Display asset when loaded (image: <img>, video: <video>)
-- [ ] **7.4.11** Display fallback placeholder on error
-- [ ] **7.4.12** Show "Retry" button if `showRetry` is true
-- [ ] **7.4.13** Lazy-load assets: only load assets for current step (don't preload all 5 steps)
-- [ ] **7.4.14** Optionally preload next step's assets while current step is active (background fetch)
+- [x] **7.4.1** Create `src/lib/asset-loader.ts` file
+- [x] **7.4.2** Define `AssetContext` interface: `{ stepId: number; choice: "A" | "B" }`
+- [x] **7.4.3** Implement `loadAsset(url: string, context: AssetContext): Promise<AssetData>` fetching asset with timeout (5s)
+- [x] **7.4.4** Detect asset type from URL extension (jpg, png, mp4, etc.)
+- [x] **7.4.5** Implement retry logic: retry once on failure with exponential backoff
+- [x] **7.4.6** Return fallback placeholder on final failure (generic image or simulated text)
+- [x] **7.4.7** Create `src/components/AssetPreview.tsx` component
+- [x] **7.4.8** Accept props: `url: string`, `context: AssetContext`, `showRetry: boolean`
+- [x] **7.4.9** Display loading spinner while asset loads
+- [x] **7.4.10** Display asset when loaded (image: <img>, video: <video>)
+- [x] **7.4.11** Display fallback placeholder on error
+- [x] **7.4.12** Show "Retry" button if `showRetry` is true
+- [x] **7.4.13** Lazy-load assets: only load assets for current step (don't preload all 5 steps)
+- [x] **7.4.14** Optionally preload next step's assets while current step is active (background fetch)
 - [ ] **7.4.15** Write unit tests: successful load, retry on failure, fallback behavior
 
 ### 7.5 Ending Calculation Logic
 *Plan: 7.5 | Requirements: 11*
 
-- [ ] **7.5.1** Create `src/lib/endings.ts` file
-- [ ] **7.5.2** Define `EndingData` interface: `{ tier: string; emoji: string; title: string; description: string; topDrivers: string[]; bottleneck: string; nextStepSuggestion: string }`
-- [ ] **7.5.3** Define ending tiers: Unicorn (85-100), Scaling Up (70-84), Gaining Steam (50-69), Finding Fit (30-49), Scrappy/Zombie (15-29), Crash & Burn (0-14)
-- [ ] **7.5.4** Implement `calculateEndingTier(finalMeter: number): string` mapping meter to tier
-- [ ] **7.5.5** Implement `identifyTopDrivers(hiddenState: Delta): string[]` returning top 2 dimensions (highest values)
-- [ ] **7.5.6** Implement `identifyBottleneck(hiddenState: Delta): string` returning lowest dimension
-- [ ] **7.5.7** Implement dimension name mapping: R → "Revenue", U → "Users", S → "System", C → "Customers", I → "Investors"
-- [ ] **7.5.8** Create ending descriptions for each tier (personalized text templates)
-- [ ] **7.5.9** Create "next step" suggestions based on bottleneck dimension
-- [ ] **7.5.10** Implement `calculateEnding(finalMeter: number, hiddenState: Delta): EndingData` orchestrating all logic
+- [x] **7.5.1** Create `src/lib/endings.ts` file
+- [x] **7.5.2** Define `EndingData` interface: `{ tier: string; emoji: string; title: string; description: string; topDrivers: string[]; bottleneck: string; nextStepSuggestion: string }`
+- [x] **7.5.3** Define ending tiers: Unicorn (85-100), Scaling Up (70-84), Gaining Steam (50-69), Finding Fit (30-49), Scrappy/Zombie (15-29), Crash & Burn (0-14)
+- [x] **7.5.4** Implement `calculateEndingTier(finalMeter: number): string` mapping meter to tier
+- [x] **7.5.5** Implement `identifyTopDrivers(hiddenState: Delta): string[]` returning top 2 dimensions (highest values)
+- [x] **7.5.6** Implement `identifyBottleneck(hiddenState: Delta): string` returning lowest dimension
+- [x] **7.5.7** Implement dimension name mapping: R → "Revenue", U → "Users", S → "System", C → "Customers", I → "Investors"
+- [x] **7.5.8** Create ending descriptions for each tier (personalized text templates)
+- [x] **7.5.9** Create "next step" suggestions based on bottleneck dimension
+- [x] **7.5.10** Implement `calculateEnding(finalMeter: number, hiddenState: Delta): EndingData` orchestrating all logic
 - [ ] **7.5.11** Write unit tests: verify tier mapping, verify driver/bottleneck identification, verify ending data structure
 
 ### 7.6 Replay and Alternate Path Hints
 *Plan: 7.6 | Requirements: 13*
 
-- [ ] **7.6.1** Create `src/lib/replay.ts` file
-- [ ] **7.6.2** Implement `analyzePathTaken(stepHistory: StepResult[]): string` converting history to path string (e.g., "ABABA")
-- [ ] **7.6.3** Implement `generateAlternatePathHints(stepHistory: StepResult[], contentPack: ContentPack): string[]` suggesting 1-2 alternate choices
-- [ ] **7.6.4** Identify steps where alternate choice would significantly change outcome (different delta direction or magnitude)
-- [ ] **7.6.5** Generate hint text: "What if you chose Option B at Step 2 (Onboarding)?"
-- [ ] **7.6.6** Prioritize hints for high-impact decisions (larger delta differences)
-- [ ] **7.6.7** Integrate hints into EndingScreen component display
-- [ ] **7.6.8** Implement "Replay" button handler: call `resetRun()`, navigate to start screen
+- [x] **7.6.1** Create `src/lib/replay.ts` file
+- [x] **7.6.2** Implement `analyzePathTaken(stepHistory: StepResult[]): string` converting history to path string (e.g., "ABABA")
+- [x] **7.6.3** Implement `generateAlternatePathHints(stepHistory: StepResult[], contentPack: ContentPack): string[]` suggesting 1-2 alternate choices
+- [x] **7.6.4** Identify steps where alternate choice would significantly change outcome (different delta direction or magnitude)
+- [x] **7.6.5** Generate hint text: "What if you chose Option B at Step 2 (Onboarding)?"
+- [x] **7.6.6** Prioritize hints for high-impact decisions (larger delta differences)
+- [x] **7.6.7** Integrate hints into EndingScreen component display
+- [x] **7.6.8** Implement "Replay" button handler: call `resetRun()`, navigate to start screen
 - [ ] **7.6.9** Optionally store previous run history for comparison (in separate localStorage key)
 - [ ] **7.6.10** Write unit tests: verify path analysis, verify hint generation
 

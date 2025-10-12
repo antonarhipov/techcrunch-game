@@ -1,103 +1,240 @@
-import Image from "next/image";
+"use client";
+
+/**
+ * Main Game Page
+ * Orchestrates game flow and screen transitions
+ */
+
+import { useState, useEffect, useCallback } from "react";
+import { useGame } from "@/contexts/GameContext";
+import { getFeatureFlags } from "@/lib/feature-flags";
+import { processStepChoice } from "@/lib/game-flow";
+import { calculateEnding } from "@/lib/endings";
+import { generateAlternatePathHints } from "@/lib/replay";
+import { getConsoleScript } from "@/lib/console-scripts";
+
+// Components
+import { StartScreen } from "@/components/StartScreen";
+import { EndingScreen } from "@/components/EndingScreen";
+import { GameLayout } from "@/components/GameLayout";
+import { ScenarioPanel } from "@/components/ScenarioPanel";
+import { JunieConsole } from "@/components/JunieConsole";
+import { ScalingMeter } from "@/components/ScalingMeter";
+import { UnluckPopup } from "@/components/UnluckPopup";
+import { VideoModal } from "@/components/VideoModal";
+
+import type { UnluckResult, LogEntry } from "@/types/game";
+
+type GameScreen = "start" | "playing" | "video" | "feedback" | "ending";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { runState, contentPack, isLoading, recordStepResult } = useGame();
+  const [screen, setScreen] = useState<GameScreen>("start");
+  const [pendingChoice, setPendingChoice] = useState<"A" | "B" | null>(null);
+  const [unluckResult, setUnluckResult] = useState<UnluckResult | null>(null);
+  const [consoleLogs, setConsoleLogs] = useState<LogEntry[]>([]);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [previousMeterValue, setPreviousMeterValue] = useState<number | undefined>(undefined);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const featureFlags = getFeatureFlags();
+
+  // Determine current screen based on runState
+  useEffect(() => {
+    if (!runState) {
+      setScreen("start");
+    } else if (runState.currentStep > 5) {
+      setScreen("ending");
+    } else {
+      setScreen("playing");
+    }
+  }, [runState]);
+
+  /**
+   * Handle choice selection
+   * Triggers video modal or proceeds directly based on feature flags
+   */
+  const handleChoiceSelect = useCallback((choice: "A" | "B") => {
+    setPendingChoice(choice);
+    setPreviousMeterValue(runState?.meterState.displayValue);
+
+    // Skip video if animations are disabled
+    if (featureFlags.skipAnimations) {
+      processChoice(choice);
+    } else {
+      setShowVideoModal(true);
+    }
+  }, [runState, featureFlags.skipAnimations]);
+
+  /**
+   * Process the choice and update game state
+   */
+  const processChoice = useCallback((choice: "A" | "B") => {
+    if (!runState || !contentPack) return;
+
+    try {
+      // Process step using game flow
+      const result = processStepChoice(runState, choice, contentPack, featureFlags);
+
+      // Store unluck result for popup
+      if (result.stepResult.unluckApplied) {
+        setUnluckResult({
+          unluckApplied: true,
+          luckFactor: result.stepResult.luckFactor || 1.0,
+          message: result.stepResult.unluckApplied 
+            ? (result.stepResult.perfectStorm 
+              ? "Perfect Storm occurred!" 
+              : "Unluck occurred!")
+            : null,
+          perfectStorm: result.stepResult.perfectStorm,
+        });
+      }
+
+      // Get console script for this step/choice
+      const script = getConsoleScript(result.stepResult.stepId, choice);
+      
+      // Stream console logs
+      streamConsoleLogs(script.logs);
+
+      // Record step result
+      recordStepResult(result.stepResult, result.newMeterState);
+
+      // Clear pending choice
+      setPendingChoice(null);
+    } catch (error) {
+      console.error("Error processing choice:", error);
+    }
+  }, [runState, contentPack, featureFlags, recordStepResult]);
+
+  /**
+   * Stream console logs with timing
+   */
+  const streamConsoleLogs = useCallback((logs: LogEntry[]) => {
+    setConsoleLogs([]);
+    setIsStreaming(true);
+
+    logs.forEach((log, index) => {
+      setTimeout(() => {
+        setConsoleLogs(prev => [...prev, log]);
+        if (index === logs.length - 1) {
+          setIsStreaming(false);
+        }
+      }, index * 400); // 400ms between logs
+    });
+  }, []);
+
+  /**
+   * Handle video completion or close
+   */
+  const handleVideoComplete = useCallback(() => {
+    setShowVideoModal(false);
+    if (pendingChoice) {
+      processChoice(pendingChoice);
+    }
+  }, [pendingChoice, processChoice]);
+
+  /**
+   * Handle unluck popup close
+   */
+  const handleUnluckClose = useCallback(() => {
+    setUnluckResult(null);
+  }, []);
+
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="mb-4 text-6xl">🚀</div>
+          <p className="text-lg text-gray-700">Loading game...</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </div>
+    );
+  }
+
+  // Start screen
+  if (screen === "start") {
+    return <StartScreen />;
+  }
+
+  // Ending screen
+  if (screen === "ending" && runState) {
+    const ending = calculateEnding(
+      runState.meterState.displayValue,
+      runState.meterState.hiddenState
+    );
+    const hints = generateAlternatePathHints(runState.stepHistory, contentPack!);
+
+    return (
+      <EndingScreen 
+        runState={runState} 
+        ending={ending}
+        hints={hints}
+      />
+    );
+  }
+
+  // Game screen
+  if (screen === "playing" && runState && contentPack) {
+    const currentStep = contentPack.steps.find(s => s.id === runState.currentStep);
+
+    if (!currentStep) {
+      return (
+        <div className="flex h-screen items-center justify-center">
+          <p className="text-red-500">Error: Step not found</p>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <GameLayout
+          scenarioPanel={
+            <ScenarioPanel
+              step={currentStep}
+              onChoiceSelect={handleChoiceSelect}
+              disabled={isStreaming || showVideoModal}
+            />
+          }
+          consolePanel={
+            <JunieConsole
+              logs={consoleLogs}
+              isStreaming={isStreaming}
+            />
+          }
+          meterPanel={
+            <ScalingMeter
+              meterState={runState.meterState}
+              previousValue={previousMeterValue}
+              showInsights={true}
+            />
+          }
+        />
+
+        {/* Video Modal */}
+        <VideoModal
+          isOpen={showVideoModal}
+          videoSrc="/video/clip1.mp4"
+          onClose={handleVideoComplete}
+          onComplete={handleVideoComplete}
+        />
+
+        {/* Unluck Popup */}
+        {unluckResult && (
+          <UnluckPopup
+            unluckResult={unluckResult}
+            onClose={handleUnluckClose}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        )}
+      </>
+    );
+  }
+
+  // Fallback
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <p className="text-gray-700">Initializing...</p>
     </div>
   );
 }
