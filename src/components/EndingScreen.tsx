@@ -10,6 +10,7 @@ import type { RunState } from "@/types/game";
 import { getTierConfig } from "@/lib/tiers";
 import { useGame } from "@/contexts/GameContext";
 import { Confetti } from "./Confetti";
+import { JourneyBreakdown } from "./JourneyBreakdown";
 
 export interface EndingData {
 	tier: string;
@@ -167,8 +168,11 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 					</div>
 				</div>
 
+				{/* Journey Breakdown */}
+				<JourneyBreakdown runState={runState} />
+
 				{/* Alternate Path Hints */}
-				<div className="bg-white rounded-xl shadow-lg p-6 text-center">
+				<div className="bg-white rounded-xl shadow-lg p-6 text-center mt-6">
 					<p className="text-lg font-semibold text-gray-800 mb-4">
 						🤔 Curious about other paths?
 					</p>

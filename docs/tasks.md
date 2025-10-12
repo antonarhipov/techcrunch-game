@@ -719,37 +719,37 @@ This document contains the detailed technical task list for building the **Choos
 ### 10.1 Unit Tests
 *Plan: 10.1 | Requirements: All*
 
-- [ ] **10.1.1** Set up testing framework: install Jest and React Testing Library
-- [ ] **10.1.2** Configure Jest for TypeScript and Next.js (jest.config.js)
-- [ ] **10.1.3** Write tests for RNG: determinism (same seed → same sequence), range validation
-- [ ] **10.1.4** Write tests for meter engine: delta application, diminishing returns, sigmoid normalization, clamping
-- [ ] **10.1.5** Write tests for momentum: streak increments, resets, bonus application
-- [ ] **10.1.6** Write tests for rubber-banding: bump applied when meter < 30, not applied otherwise
-- [ ] **10.1.7** Write tests for tier calculation: verify all tier boundaries
-- [ ] **10.1.8** Write tests for unluck: probability rolls, factor generation in range, message selection determinism
-- [ ] **10.1.9** Write tests for Perfect Storm: triggers only on Step 4B with unluck, correct penalties
-- [ ] **10.1.10** Write tests for unluck integration: RNG call order stability, determinism with seed
-- [ ] **10.1.11** Write tests for content validation: valid pack passes, invalid packs fail with correct errors
-- [ ] **10.1.12** Write tests for content loader: file loading, URL loading, validation, fallback
-- [ ] **10.1.13** Write tests for insights generation: dimension identification, message selection
-- [ ] **10.1.14** Write tests for ending calculation: tier mapping, drivers/bottleneck identification
-- [ ] **10.1.15** Run tests with `npm test`, aim for >80% code coverage on core modules
+- [x] **10.1.1** Set up testing framework: install Jest and React Testing Library
+- [x] **10.1.2** Configure Jest for TypeScript and Next.js (jest.config.js)
+- [x] **10.1.3** Write tests for RNG: determinism (same seed → same sequence), range validation
+- [x] **10.1.4** Write tests for meter engine: delta application, diminishing returns, sigmoid normalization, clamping
+- [x] **10.1.5** Write tests for momentum: streak increments, resets, bonus application
+- [x] **10.1.6** Write tests for rubber-banding: bump applied when meter < 30, not applied otherwise
+- [x] **10.1.7** Write tests for tier calculation: verify all tier boundaries
+- [x] **10.1.8** Write tests for unluck: probability rolls, factor generation in range, message selection determinism
+- [x] **10.1.9** Write tests for Perfect Storm: triggers only on Step 4B with unluck, correct penalties
+- [x] **10.1.10** Write tests for unluck integration: RNG call order stability, determinism with seed
+- [x] **10.1.11** Write tests for content validation: valid pack passes, invalid packs fail with correct errors
+- [x] **10.1.12** Write tests for content loader: file loading, URL loading, validation, fallback
+- [x] **10.1.13** Write tests for insights generation: dimension identification, message selection
+- [x] **10.1.14** Write tests for ending calculation: tier mapping, drivers/bottleneck identification
+- [x] **10.1.15** Run tests with `npm test`, aim for >80% code coverage on core modules
 
 ### 10.2 Integration Tests
 *Plan: 10.2 | Requirements: 7.1, 7.2*
 
-- [ ] **10.2.1** Write integration test: complete game flow from start to ending (5 steps, all A choices)
-- [ ] **10.2.2** Verify state updates after each step: meterState, stepHistory, currentStep
-- [ ] **10.2.3** Verify ending calculation is triggered after Step 5
-- [ ] **10.2.4** Write integration test: unluck triggering (use forceUnluck flag)
-- [ ] **10.2.5** Verify unluck popup appears, message is displayed, meter is reduced
-- [ ] **10.2.6** Write integration test: Perfect Storm (use forcePerfectStorm on Step 4B)
-- [ ] **10.2.7** Verify Perfect Storm popup, penalties applied, meter significantly reduced
-- [ ] **10.2.8** Write integration test: localStorage persistence (complete step, reload page, verify state restored)
-- [ ] **10.2.9** Write integration test: content pack loading (load valid pack, load invalid pack, verify fallback)
-- [ ] **10.2.10** Write integration test: replay flow (complete game, click replay, verify state reset)
-- [ ] **10.2.11** Run integration tests with Playwright or Cypress (choose one)
-- [ ] **10.2.12** Verify all integration tests pass consistently
+- [x] **10.2.1** Write integration test: complete game flow from start to ending (5 steps, all A choices)
+- [x] **10.2.2** Verify state updates after each step: meterState, stepHistory, currentStep
+- [x] **10.2.3** Verify ending calculation is triggered after Step 5
+- [x] **10.2.4** Write integration test: unluck triggering (use forceUnluck flag)
+- [x] **10.2.5** Verify unluck popup appears, message is displayed, meter is reduced
+- [x] **10.2.6** Write integration test: Perfect Storm (use forcePerfectStorm on Step 4B)
+- [x] **10.2.7** Verify Perfect Storm popup, penalties applied, meter significantly reduced
+- [x] **10.2.8** Write integration test: localStorage persistence (complete step, reload page, verify state restored)
+- [x] **10.2.9** Write integration test: content pack loading (load valid pack, load invalid pack, verify fallback)
+- [x] **10.2.10** Write integration test: replay flow (complete game, click replay, verify state reset)
+- [x] **10.2.11** Run integration tests with Playwright or Cypress (choose one)
+- [x] **10.2.12** Verify all integration tests pass consistently
 
 ### 10.3 Visual Regression Testing
 *Plan: 10.3 | Requirements: 14*

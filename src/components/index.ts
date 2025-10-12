@@ -19,4 +19,5 @@ export { ErrorBoundary } from "./ErrorBoundary";
 export { Toast, ToastContainer } from "./Toast";
 export type { ToastMessage, ToastType } from "./Toast";
 export { withErrorBoundary, AssetPreviewErrorFallback, JunieConsoleErrorFallback } from "./withErrorBoundary";
+export { JourneyBreakdown } from "./JourneyBreakdown";
 

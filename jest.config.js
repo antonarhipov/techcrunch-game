@@ -1,7 +1,7 @@
 /** @type {import('jest').Config} */
 const config = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   roots: ['<rootDir>/src'],
   testMatch: ['**/__tests__/**/*.test.{ts,tsx}', '**/?(*.)+(spec|test).{ts,tsx}'],
   moduleNameMapper: {
@@ -10,11 +10,14 @@ const config = {
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: {
-        jsx: 'react',
+        jsx: 'react-jsx',
         esModuleInterop: true,
         allowSyntheticDefaultImports: true,
       },
     }],
+  },
+  testEnvironmentOptions: {
+    customExportConditions: [''],
   },
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',

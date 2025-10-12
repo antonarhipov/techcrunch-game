@@ -24,7 +24,7 @@ import type { Delta } from "@/types/game";
 
 describe("Meter Engine", () => {
   describe("createInitialMeterState()", () => {
-    it("should create state with all zeros", () => {
+    it("should create state with all zeros in hidden state", () => {
       const state = createInitialMeterState();
 
       expect(state.hiddenState.R).toBe(0);
@@ -34,14 +34,14 @@ describe("Meter Engine", () => {
       expect(state.hiddenState.I).toBe(0);
     });
 
-    it("should start with displayValue of 0", () => {
+    it("should start with displayValue of 50", () => {
       const state = createInitialMeterState();
-      expect(state.displayValue).toBe(0);
+      expect(state.displayValue).toBe(50);
     });
 
-    it("should start with crash tier", () => {
+    it("should start with gaining-steam tier", () => {
       const state = createInitialMeterState();
-      expect(state.tier).toBe("crash");
+      expect(state.tier).toBe("gaining-steam");
     });
 
     it("should start with streak of 0", () => {

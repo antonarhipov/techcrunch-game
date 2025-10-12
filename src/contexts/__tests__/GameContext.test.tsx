@@ -7,6 +7,7 @@
 import React from "react";
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { GameProvider, useGame } from "../GameContext";
+import { ToastProvider } from "../ToastContext";
 import * as storage from "@/lib/storage";
 import { createInitialMeterState } from "@/lib/meter-engine";
 import type { StepResult } from "@/types/game";
@@ -74,11 +75,18 @@ beforeEach(() => {
   mockedStorage.clearRunState.mockImplementation(() => {});
 });
 
+// Create a wrapper that includes both providers
+const AllProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <ToastProvider>
+    <GameProvider>{children}</GameProvider>
+  </ToastProvider>
+);
+
 describe("GameContext Integration Tests", () => {
   describe("Provider Setup", () => {
     it("should provide context to children", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -102,7 +110,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should load content pack on mount", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -117,7 +125,7 @@ describe("GameContext Integration Tests", () => {
   describe("Start New Run", () => {
     it("should create new run with generated seed", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -137,7 +145,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should create new run with provided seed", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -153,7 +161,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should clear existing saved state before starting", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -169,7 +177,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should save new run to localStorage", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -193,7 +201,7 @@ describe("GameContext Integration Tests", () => {
   describe("Record Step Result", () => {
     it("should append result to step history", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -224,7 +232,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should update meter state", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -255,7 +263,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should increment current step", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -283,7 +291,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should save state after recording", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -313,7 +321,7 @@ describe("GameContext Integration Tests", () => {
 
     it("should set endTime when game is complete", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -347,7 +355,7 @@ describe("GameContext Integration Tests", () => {
       const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -402,7 +410,7 @@ describe("GameContext Integration Tests", () => {
       mockedStorage.loadRunState.mockReturnValue(savedState);
 
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -425,7 +433,7 @@ describe("GameContext Integration Tests", () => {
       mockedStorage.loadRunState.mockReturnValue(null);
 
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -447,7 +455,7 @@ describe("GameContext Integration Tests", () => {
   describe("Reset Run", () => {
     it("should clear localStorage and reset state", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -480,7 +488,7 @@ describe("GameContext Integration Tests", () => {
       });
 
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -494,7 +502,7 @@ describe("GameContext Integration Tests", () => {
       mockedStorage.loadRunState.mockReturnValue(null);
 
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {
@@ -508,7 +516,7 @@ describe("GameContext Integration Tests", () => {
   describe("Complete Session Cycle", () => {
     it("should handle start -> record -> save -> load cycle", async () => {
       const { result } = renderHook(() => useGame(), {
-        wrapper: ({ children }) => <GameProvider>{children}</GameProvider>,
+        wrapper: AllProviders,
       });
 
       await waitFor(() => {

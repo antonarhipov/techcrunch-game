@@ -8,7 +8,7 @@ import { calculateTier } from "./tiers";
 import { processUnluck } from "./unluck";
 
 /**
- * Create initial meter state (all zeros, crash tier)
+ * Create initial meter state (hidden state at zeros, display at 50% gaining-steam tier)
  */
 export function createInitialMeterState(): MeterState {
   return {
@@ -19,8 +19,8 @@ export function createInitialMeterState(): MeterState {
       C: 0,
       I: 0,
     },
-    displayValue: 0,
-    tier: "crash",
+    displayValue: 50,
+    tier: "gaining-steam",
     streak: 0,
   };
 }

@@ -1,6 +1,7 @@
 /**
  * Unit tests for Feature Flags System
  * Task 1.4.15
+ * @jest-environment node
  */
 
 import {
@@ -29,26 +30,36 @@ const mockLocalStorage = (() => {
   };
 })();
 
+// Helper to set location search
+function setLocationSearch(search: string) {
+  delete (window as any).location;
+  (window as any).location = {
+    search: search,
+  };
+}
+
 // Setup global mocks
 beforeAll(() => {
+  // In Node environment, we need to define window and localStorage
   Object.defineProperty(global, "window", {
     value: {
-      location: {
-        search: "",
-      },
+      location: { search: "" },
     },
     writable: true,
+    configurable: true,
   });
 
   Object.defineProperty(global, "localStorage", {
     value: mockLocalStorage,
     writable: true,
+    configurable: true,
   });
 });
 
 beforeEach(() => {
   mockLocalStorage.clear();
-  (global.window as any).location.search = "";
+  // Reset the search string
+  setLocationSearch("");
 });
 
 describe("getFeatureFlags()", () => {
@@ -68,84 +79,84 @@ describe("getFeatureFlags()", () => {
 
   describe("URL Parameter Parsing", () => {
     it("should parse seed parameter", () => {
-      (global.window as any).location.search = "?seed=12345";
+      setLocationSearch("?seed=12345");
       const flags = getFeatureFlags();
 
       expect(flags.fixedSeed).toBe(12345);
     });
 
     it("should ignore invalid seed parameter", () => {
-      (global.window as any).location.search = "?seed=invalid";
+      setLocationSearch("?seed=invalid");
       const flags = getFeatureFlags();
 
       expect(flags.fixedSeed).toBeUndefined();
     });
 
     it("should parse forceUnluck parameter (true)", () => {
-      (global.window as any).location.search = "?forceUnluck=true";
+      setLocationSearch("?forceUnluck=true");
       const flags = getFeatureFlags();
 
       expect(flags.forceUnluck).toBe(true);
     });
 
     it("should parse forceUnluck parameter (1)", () => {
-      (global.window as any).location.search = "?forceUnluck=1";
+      setLocationSearch("?forceUnluck=1");
       const flags = getFeatureFlags();
 
       expect(flags.forceUnluck).toBe(true);
     });
 
     it("should parse forcePerfectStorm parameter", () => {
-      (global.window as any).location.search = "?forcePerfectStorm=true";
+      setLocationSearch("?forcePerfectStorm=true");
       const flags = getFeatureFlags();
 
       expect(flags.forcePerfectStorm).toBe(true);
     });
 
     it("should parse unluckFactor parameter", () => {
-      (global.window as any).location.search = "?unluckFactor=0.5";
+      setLocationSearch("?unluckFactor=0.5");
       const flags = getFeatureFlags();
 
       expect(flags.unluckFactorOverride).toBe(0.5);
     });
 
     it("should ignore unluckFactor outside valid range (too low)", () => {
-      (global.window as any).location.search = "?unluckFactor=0.3";
+      setLocationSearch("?unluckFactor=0.3");
       const flags = getFeatureFlags();
 
       expect(flags.unluckFactorOverride).toBeUndefined();
     });
 
     it("should ignore unluckFactor outside valid range (too high)", () => {
-      (global.window as any).location.search = "?unluckFactor=0.8";
+      setLocationSearch("?unluckFactor=0.8");
       const flags = getFeatureFlags();
 
       expect(flags.unluckFactorOverride).toBeUndefined();
     });
 
     it("should parse showHiddenState parameter", () => {
-      (global.window as any).location.search = "?showHiddenState=true";
+      setLocationSearch("?showHiddenState=true");
       const flags = getFeatureFlags();
 
       expect(flags.showHiddenState).toBe(true);
     });
 
     it("should parse debugConsole parameter", () => {
-      (global.window as any).location.search = "?debugConsole=true";
+      setLocationSearch("?debugConsole=true");
       const flags = getFeatureFlags();
 
       expect(flags.enableDebugConsole).toBe(true);
     });
 
     it("should parse skipAnimations parameter", () => {
-      (global.window as any).location.search = "?skipAnimations=true";
+      setLocationSearch("?skipAnimations=true");
       const flags = getFeatureFlags();
 
       expect(flags.skipAnimations).toBe(true);
     });
 
     it("should enable showHiddenState and debugConsole when operator=true", () => {
-      (global.window as any).location.search = "?operator=true";
+      setLocationSearch("?operator=true");
       const flags = getFeatureFlags();
 
       expect(flags.showHiddenState).toBe(true);
@@ -153,8 +164,9 @@ describe("getFeatureFlags()", () => {
     });
 
     it("should parse multiple parameters", () => {
-      (global.window as any).location.search =
-        "?seed=99999&forceUnluck=true&unluckFactor=0.6&operator=true";
+      setLocationSearch(
+        "?seed=99999&forceUnluck=true&unluckFactor=0.6&operator=true"
+      );
       const flags = getFeatureFlags();
 
       expect(flags.fixedSeed).toBe(99999);
@@ -206,7 +218,7 @@ describe("getFeatureFlags()", () => {
         JSON.stringify(storedFlags)
       );
 
-      (global.window as any).location.search = "?seed=22222&forceUnluck=true";
+      setLocationSearch("?seed=22222&forceUnluck=true");
       const flags = getFeatureFlags();
 
       expect(flags.fixedSeed).toBe(22222); // URL wins
@@ -273,22 +285,22 @@ describe("clearFeatureFlags()", () => {
 
 describe("isOperatorMode()", () => {
   it("should return true when operator=true", () => {
-    (global.window as any).location.search = "?operator=true";
+    (window as any).location.search = "?operator=true";
     expect(isOperatorMode()).toBe(true);
   });
 
   it("should return true when operator=1", () => {
-    (global.window as any).location.search = "?operator=1";
+    (window as any).location.search = "?operator=1";
     expect(isOperatorMode()).toBe(true);
   });
 
   it("should return false when operator is not set", () => {
-    (global.window as any).location.search = "";
+    (window as any).location.search = "";
     expect(isOperatorMode()).toBe(false);
   });
 
   it("should return false when operator=false", () => {
-    (global.window as any).location.search = "?operator=false";
+    (window as any).location.search = "?operator=false";
     expect(isOperatorMode()).toBe(false);
   });
 });
