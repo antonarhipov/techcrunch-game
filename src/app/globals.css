@@ -83,6 +83,20 @@ body {
   animation: confetti-fall 3s linear infinite;
 }
 
+/* Junie logo rotation animation */
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 3s linear infinite;
+}
+
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,

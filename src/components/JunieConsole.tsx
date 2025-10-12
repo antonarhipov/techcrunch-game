@@ -6,6 +6,7 @@
 "use client";
 
 import { useEffect, useRef, memo } from "react";
+import Image from "next/image";
 
 export type LogType = "info" | "success" | "warning" | "error";
 
@@ -40,8 +41,17 @@ export const JunieConsole = memo(function JunieConsole({
 		<div className="h-full flex flex-col">
 			{/* Console Header */}
 			<div className="flex items-center justify-between px-4 py-3 bg-gray-800 border-b border-gray-700">
-				<div className="flex items-center gap-2">
-					<span className="text-green-400 text-xl">▸</span>
+				<div className="flex items-center gap-3">
+					{/* Junie Logo */}
+					<div className={isStreaming ? "animate-rotate-slow" : ""}>
+						<Image
+							src="/junie.svg"
+							alt="Junie"
+							width={24}
+							height={24}
+							className="flex-shrink-0"
+						/>
+					</div>
 					<h2 className="text-white font-semibold font-mono">Junie Console</h2>
 					{isStreaming && (
 						<span className="flex items-center gap-1 text-yellow-400 text-sm">
