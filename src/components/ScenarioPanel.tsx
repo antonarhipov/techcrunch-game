@@ -52,21 +52,21 @@ export function ScenarioPanel({
 			{/* Step Header */}
 			<div className="mb-6">
 				<div className="flex items-baseline gap-2 mb-2">
-					<span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+					<span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
 						Step {step.id} of 5
 					</span>
 				</div>
-				<h1 className="text-3xl font-bold text-gray-900 mb-2">
+				<h1 className="text-3xl font-bold text-white mb-2">
 					{step.title}
 				</h1>
 				{step.subtitle && (
-					<p className="text-lg text-gray-600">{step.subtitle}</p>
+					<p className="text-lg text-gray-300">{step.subtitle}</p>
 				)}
 			</div>
 
 			{/* Scenario */}
 			<div className="mb-6">
-				<p className="text-base text-gray-700 leading-relaxed whitespace-pre-line">
+				<p className="text-base text-gray-300 leading-relaxed whitespace-pre-line">
 					{step.scenario}
 				</p>
 			</div>
@@ -148,14 +148,14 @@ function ChoiceCard({
 				p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer
 				${
 					disabled
-						? "opacity-50 cursor-not-allowed bg-gray-100 border-gray-300"
+						? "opacity-50 cursor-not-allowed bg-gray-900 border-gray-700"
 						: isClicked
-							? "border-blue-600 shadow-inner scale-[0.98] bg-blue-100"
+							? "border-purple-600 shadow-inner scale-[0.98] bg-purple-900/30"
 							: isHovered
-								? "border-blue-500 shadow-lg scale-[1.02] bg-blue-50"
-								: "border-gray-300 shadow-md bg-white hover:border-blue-400"
+								? "border-purple-500 shadow-lg scale-[1.02] bg-purple-900/20"
+								: "border-gray-700 shadow-md bg-gray-900 hover:border-purple-400"
 				}
-				focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+				focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2
 			`}
 			style={{
 				transformOrigin: 'center',
@@ -168,7 +168,7 @@ function ChoiceCard({
 				<div
 					className={`
 						flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm
-						${disabled ? "bg-gray-400 text-gray-100" : "bg-blue-500 text-white"}
+						${disabled ? "bg-gray-600 text-gray-400" : "bg-purple-500 text-white"}
 					`}
 				>
 					{label}
@@ -176,10 +176,10 @@ function ChoiceCard({
 
 				{/* Content */}
 				<div className="flex-1 min-w-0">
-					<h3 className="text-lg font-semibold text-gray-900 mb-2">
+					<h3 className="text-lg font-semibold text-white mb-2">
 						{choice.label}
 					</h3>
-					<p className="text-sm text-gray-700 leading-relaxed">
+					<p className="text-sm text-gray-300 leading-relaxed">
 						{choice.body}
 					</p>
 				</div>

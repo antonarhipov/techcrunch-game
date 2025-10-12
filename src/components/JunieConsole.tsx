@@ -106,9 +106,9 @@ function LogEntryComponent({ log, index }: LogEntryComponentProps) {
 				return "text-yellow-400";
 			case "error":
 				return "text-red-400";
-			case "info":
-			default:
-				return "text-blue-400";
+		case "info":
+		default:
+			return "text-purple-400";
 		}
 	};
 

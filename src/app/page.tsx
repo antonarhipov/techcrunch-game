@@ -195,10 +195,10 @@ export default function Home() {
   // Loading state
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen items-center justify-center bg-gray-950">
         <div className="text-center">
           <div className="mb-4 text-6xl">🚀</div>
-          <p className="text-lg text-gray-700">Loading game...</p>
+          <p className="text-lg text-gray-300">Loading game...</p>
         </div>
       </div>
     );
@@ -231,14 +231,14 @@ export default function Home() {
               <div className="flex flex-col items-center justify-center h-full p-8">
                 <div className="max-w-2xl w-full text-center space-y-6">
                   <div className="text-6xl mb-4">🎉</div>
-                  <h2 className="text-3xl font-bold text-gray-900">
+                  <h2 className="text-3xl font-bold text-white">
                     Journey Complete!
                   </h2>
-                  <p className="text-lg text-gray-600">
+                  <p className="text-lg text-gray-300">
                     You've made all your decisions. Your AI cofounder has shipped code,
                     faced challenges, and adapted along the way.
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-gray-300">
                     Check the console to see what Junie built, and review your final
                     metrics in the scaling meter.
                   </p>
@@ -246,7 +246,7 @@ export default function Home() {
                     type="button"
                     onClick={handleFinishGame}
                     disabled={isStreaming}
-                    className="mt-8 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="mt-8 px-8 py-4 bg-gradient-to-r from-purple-600 to-orange-500 text-white text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isStreaming ? "Processing..." : "See Final Results 🎯"}
                   </button>
@@ -284,8 +284,8 @@ export default function Home() {
 
     if (!currentStep) {
       return (
-        <div className="flex h-screen items-center justify-center">
-          <p className="text-red-500">Error: Step not found</p>
+        <div className="flex h-screen items-center justify-center bg-gray-950">
+          <p className="text-red-400">Error: Step not found</p>
         </div>
       );
     }
@@ -336,8 +336,8 @@ export default function Home() {
 
   // Fallback
   return (
-    <div className="flex h-screen items-center justify-center">
-      <p className="text-gray-700">Initializing...</p>
+    <div className="flex h-screen items-center justify-center bg-gray-950">
+      <p className="text-gray-300">Initializing...</p>
     </div>
   );
 }

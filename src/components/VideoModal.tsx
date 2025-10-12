@@ -143,7 +143,7 @@ export function VideoModal({
 						<button
 							type="button"
 							onClick={onClose}
-							className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+							className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors"
 						>
 							Continue
 						</button>

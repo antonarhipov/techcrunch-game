@@ -41,7 +41,7 @@ export function Toast({ message, onClose }: ToastProps) {
 	if (!message) return null;
 
 	const typeStyles = {
-		info: "bg-blue-500 border-blue-600",
+		info: "bg-purple-500 border-purple-600",
 		warning: "bg-yellow-500 border-yellow-600",
 		error: "bg-red-500 border-red-600",
 		success: "bg-green-500 border-green-600",

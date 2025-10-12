@@ -74,7 +74,7 @@ export function AssetPreview({
     return (
       <div className={`flex items-center justify-center bg-gray-100 ${className}`}>
         <div className="flex flex-col items-center gap-2">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-purple-500" />
           <p className="text-sm text-gray-600">Loading...</p>
         </div>
       </div>
@@ -97,7 +97,7 @@ export function AssetPreview({
           <div className="mb-4 text-6xl">📦</div>
         )}
         
-        <p className="mb-2 text-sm text-gray-700">
+        <p className="mb-2 text-sm text-gray-300">
           {assetData?.error || "Asset unavailable"}
         </p>
         
@@ -105,7 +105,7 @@ export function AssetPreview({
           <button
             type="button"
             onClick={handleRetry}
-            className="rounded bg-blue-500 px-4 py-2 text-sm text-white transition hover:bg-blue-600"
+            className="rounded bg-purple-500 px-4 py-2 text-sm text-white transition hover:bg-purple-600"
           >
             Retry
           </button>
@@ -145,12 +145,12 @@ export function AssetPreview({
     <div className={`flex items-center justify-center bg-gray-100 p-6 ${className}`}>
       <div className="text-center">
         <div className="mb-2 text-4xl">📄</div>
-        <p className="text-sm text-gray-700">Asset loaded</p>
+        <p className="text-sm text-gray-300">Asset loaded</p>
         <a
           href={assetData.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 inline-block text-sm text-blue-500 underline"
+          className="mt-2 inline-block text-sm text-purple-500 underline"
         >
           Open in new tab
         </a>

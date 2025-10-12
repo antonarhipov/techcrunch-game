@@ -130,7 +130,7 @@ export function UnluckPopup({
 				</div>
 
 				{/* Luck Factor */}
-				<div className="bg-white bg-opacity-20 rounded-lg p-3 text-center backdrop-blur-sm">
+				<div className="bg-black bg-opacity-20 rounded-lg p-3 text-center backdrop-blur-sm">
 					<p className="text-sm font-semibold">
 						{isPerfectStorm
 							? "Multiple systems impacted!"

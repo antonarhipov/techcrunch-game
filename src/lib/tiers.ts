@@ -140,11 +140,11 @@ export function getTierGradientClass(tier: MeterTier): string {
     case "finding-fit":
       return "from-orange-500 to-orange-700";
     case "gaining-steam":
-      return "from-yellow-500 to-yellow-700";
+      return "from-orange-500 to-yellow-500";
     case "scaling-up":
-      return "from-green-500 to-green-700";
+      return "from-purple-500 to-purple-700";
     case "breakout":
-      return "from-purple-500 to-blue-500";
+      return "from-purple-600 to-orange-500";
   }
 }
 

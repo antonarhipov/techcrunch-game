@@ -175,7 +175,7 @@ export function OperatorPanel({
 							<button
 								type="button"
 								onClick={copyCurrentState}
-								className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-semibold"
+								className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors text-sm font-semibold"
 								disabled={!currentMeterState}
 							>
 								📋 Copy Current State
@@ -210,10 +210,10 @@ function Toggle({ label, checked, onChange, description }: ToggleProps) {
 				type="checkbox"
 				checked={checked}
 				onChange={(e) => onChange(e.target.checked)}
-				className="mt-1 w-4 h-4 text-blue-600 border-gray-600 rounded focus:ring-blue-500 focus:ring-2 bg-gray-800"
+				className="mt-1 w-4 h-4 text-purple-600 border-gray-600 rounded focus:ring-purple-500 focus:ring-2 bg-gray-800"
 			/>
 			<div className="flex-1">
-				<div className="text-sm font-medium group-hover:text-blue-400 transition-colors">
+				<div className="text-sm font-medium group-hover:text-purple-400 transition-colors">
 					{label}
 				</div>
 				{description && (
@@ -256,7 +256,7 @@ function NumberInput({
 				min={min}
 				max={max}
 				step={step}
-				className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+				className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
 			/>
 		</div>
 	);

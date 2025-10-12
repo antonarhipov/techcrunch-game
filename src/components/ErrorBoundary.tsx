@@ -94,34 +94,34 @@ ${this.state.errorInfo?.componentStack}
 
 			// Default error UI
 			return (
-				<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-					<div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
+				<div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+					<div className="max-w-2xl w-full bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-700">
 						{/* Icon */}
 						<div className="text-center mb-6">
 							<div className="text-6xl mb-4">⚠️</div>
-							<h1 className="text-3xl font-bold text-gray-900 mb-2">
+							<h1 className="text-3xl font-bold text-white mb-2">
 								Something went wrong
 							</h1>
-							<p className="text-lg text-gray-600">
+							<p className="text-lg text-gray-300">
 								We encountered an unexpected error. Don't worry, your progress might be saved.
 							</p>
 						</div>
 
 						{/* Error Details (collapsed by default) */}
-						<details className="mb-6 bg-gray-50 rounded-lg p-4 border border-gray-200">
-							<summary className="cursor-pointer font-semibold text-gray-700 hover:text-gray-900">
+						<details className="mb-6 bg-gray-900 rounded-lg p-4 border border-gray-700">
+							<summary className="cursor-pointer font-semibold text-gray-300 hover:text-white">
 								Technical Details
 							</summary>
 							<div className="mt-4 space-y-2">
 								<div>
-									<p className="text-sm font-mono text-red-600 break-all">
+									<p className="text-sm font-mono text-red-400 break-all">
 										{this.state.error?.message}
 									</p>
 								</div>
 								{this.state.error?.stack && (
 									<div>
-										<p className="text-xs text-gray-500 mb-1">Stack Trace:</p>
-										<pre className="text-xs bg-gray-900 text-gray-100 p-2 rounded overflow-auto max-h-40">
+										<p className="text-xs text-gray-400 mb-1">Stack Trace:</p>
+										<pre className="text-xs bg-gray-950 text-gray-300 p-2 rounded overflow-auto max-h-40">
 											{this.state.error.stack}
 										</pre>
 									</div>
@@ -134,22 +134,22 @@ ${this.state.errorInfo?.componentStack}
 							<button
 								type="button"
 								onClick={this.handleRestart}
-								className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+								className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-500 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
 							>
 								🔄 Restart Game
 							</button>
 							<button
 								type="button"
 								onClick={this.handleReportIssue}
-								className="px-6 py-3 bg-gray-200 text-gray-900 font-semibold rounded-lg shadow-md hover:shadow-xl hover:bg-gray-300 transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+								className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:shadow-xl hover:bg-gray-600 transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
 							>
 								🐛 Report Issue
 							</button>
 						</div>
 
 						{/* Helpful Tips */}
-						<div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-							<p className="text-sm text-blue-900">
+						<div className="mt-6 p-4 bg-purple-50 rounded-lg border border-purple-200">
+							<p className="text-sm text-purple-900">
 								<strong>Tip:</strong> Try refreshing the page first. If the problem persists, click "Restart Game" to clear your session and start fresh.
 							</p>
 						</div>

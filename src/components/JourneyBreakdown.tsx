@@ -15,8 +15,8 @@ interface JourneyBreakdownProps {
 
 const DIMENSION_COLORS = {
   R: "text-green-600 bg-green-50",
-  U: "text-blue-600 bg-blue-50",
-  S: "text-purple-600 bg-purple-50",
+  U: "text-purple-600 bg-purple-50",
+  S: "text-purple-700 bg-purple-100",
   C: "text-orange-600 bg-orange-50",
   I: "text-pink-600 bg-pink-50",
 };
@@ -36,30 +36,30 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
   const weights = DEFAULT_CONFIG.weights;
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
       {/* Header - Clickable to expand/collapse */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-700 transition-colors"
       >
         <div className="flex items-center gap-3">
           <span className="text-2xl">{isOpen ? "📊" : "📈"}</span>
           <div className="text-left">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-white">
               Your Journey Breakdown
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-300">
               See how each choice impacted your score
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-400">
             {isOpen ? "Hide details" : "Show details"}
           </span>
           <svg
-            className={`w-5 h-5 text-gray-500 transition-transform ${isOpen ? "rotate-180" : ""}`}
+            className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -76,13 +76,13 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
 
       {/* Expanded Content */}
       {isOpen && (
-        <div className="px-6 pb-6 border-t border-gray-200">
+        <div className="px-6 pb-6 border-t border-gray-700">
           {/* Formula Explanation Toggle */}
           <div className="mt-4 mb-6">
             <button
               type="button"
               onClick={() => setShowFormula(!showFormula)}
-              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              className="text-sm text-purple-600 hover:text-purple-700 font-medium"
             >
               {showFormula ? "Hide" : "Show"} calculation formula
             </button>
@@ -90,21 +90,21 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
 
           {/* Formula Details */}
           {showFormula && (
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <h4 className="font-semibold text-gray-900 mb-3">
+            <div className="mb-6 p-4 bg-gray-900 rounded-lg border border-gray-700">
+              <h4 className="font-semibold text-white mb-3">
                 How the Score is Calculated
               </h4>
               
-              <div className="space-y-3 text-sm text-gray-700">
+              <div className="space-y-3 text-sm text-gray-300">
                 <p>
                   Your final score is calculated using a weighted sum of five dimensions,
                   then normalized through a sigmoid function:
                 </p>
                 
                 {/* Step 1: Weighted Sum */}
-                <div className="bg-white p-3 rounded border border-gray-200">
+                <div className="bg-gray-800 p-3 rounded border border-gray-700">
                   <p className="font-medium mb-2">Step 1: Weighted Sum</p>
-                  <div className="font-mono text-xs bg-gray-100 p-2 rounded">
+                  <div className="font-mono text-xs bg-gray-950 p-2 rounded">
                     Raw Score = (R × {weights.R}) + (U × {weights.U}) + (S × {weights.S}) + (C × {weights.C}) + (I × {weights.I})
                   </div>
                   <p className="mt-2 text-xs text-gray-600">
@@ -113,28 +113,28 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                 </div>
 
                 {/* Step 2: Diminishing Returns */}
-                <div className="bg-white p-3 rounded border border-gray-200">
+                <div className="bg-gray-800 p-3 rounded border border-gray-700">
                   <p className="font-medium mb-2">Step 2: Diminishing Returns</p>
-                  <div className="font-mono text-xs bg-gray-100 p-2 rounded">
+                  <div className="font-mono text-xs bg-gray-950 p-2 rounded">
                     Each dimension<sup>0.9</sup> (prevents over-optimization of single dimension)
                   </div>
                 </div>
 
                 {/* Step 3: Sigmoid Normalization */}
-                <div className="bg-white p-3 rounded border border-gray-200">
+                <div className="bg-gray-800 p-3 rounded border border-gray-700">
                   <p className="font-medium mb-2">Step 3: Sigmoid Normalization</p>
-                  <div className="font-mono text-xs bg-gray-100 p-2 rounded">
+                  <div className="font-mono text-xs bg-gray-950 p-2 rounded">
                     Score = 100 / (1 + e<sup>-(Raw - μ) / σ</sup>)
                   </div>
-                  <p className="mt-2 text-xs text-gray-600">
+                  <p className="mt-2 text-xs text-gray-400">
                     Maps the raw score to 0-100 range with smooth transitions (μ={DEFAULT_CONFIG.sigmoid.mu}, σ={DEFAULT_CONFIG.sigmoid.sigma}).
                   </p>
                 </div>
 
                 {/* Additional Mechanics */}
-                <div className="bg-white p-3 rounded border border-gray-200">
+                <div className="bg-gray-800 p-3 rounded border border-gray-700">
                   <p className="font-medium mb-2">Additional Mechanics</p>
-                  <ul className="text-xs text-gray-600 space-y-1 list-disc list-inside">
+                  <ul className="text-xs text-gray-400 space-y-1 list-disc list-inside">
                     <li>Random noise (±5) adds unpredictability</li>
                     <li>Momentum bonus (+3) for {DEFAULT_CONFIG.momentum.streakThreshold}+ consecutive gains</li>
                     <li>Rubber-band (+2 to System) helps if score drops below {DEFAULT_CONFIG.rubberBand.threshold}</li>
@@ -147,27 +147,27 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
 
           {/* Step-by-Step Breakdown */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900 mb-3">
+            <h4 className="font-semibold text-white mb-3">
               Step-by-Step Impact
             </h4>
 
             {runState.stepHistory.map((step, index) => (
               <div
                 key={step.stepId}
-                className="border border-gray-200 rounded-lg overflow-hidden"
+                className="border border-gray-700 rounded-lg overflow-hidden"
               >
                 {/* Step Header */}
-                <div className="bg-gray-50 px-4 py-3 flex items-center justify-between">
+                <div className="bg-gray-900 px-4 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-lg font-semibold text-gray-700">
+                    <span className="text-lg font-semibold text-gray-300">
                       Step {step.stepId}
                     </span>
-                    <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">
+                    <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded">
                       Choice {step.choice}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-gray-400">
                       {step.meterBefore.toFixed(1)}%
                     </span>
                     <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,7 +208,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                   </div>
 
                   {/* Weighted Contribution */}
-                  <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
+                  <div className="text-xs text-gray-300 bg-gray-900 p-2 rounded">
                     <span className="font-medium">Weighted impact:</span>{" "}
                     {(Object.keys(weights) as Array<keyof typeof weights>).map((key, idx) => {
                       const value = step.appliedDelta[key];
@@ -233,11 +233,11 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                         </span>
                         <div className="text-xs">
                           <span className={`font-semibold ${
-                            step.perfectStorm ? "text-red-700" : "text-orange-700"
+                            step.perfectStorm ? "text-red-400" : "text-orange-400"
                           }`}>
                             {step.perfectStorm ? "Perfect Storm!" : "Unluck Event"}
                           </span>
-                          <span className="text-gray-600 ml-2">
+                          <span className="text-gray-300 ml-2">
                             Gains reduced to {((step.luckFactor ?? 1) * 100).toFixed(0)}%
                           </span>
                         </div>
@@ -249,8 +249,8 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                   {step.insights.length > 0 && (
                     <div className="mt-2 space-y-1">
                       {step.insights.map((insight, idx) => (
-                        <div key={idx} className="text-xs text-gray-600 flex items-start gap-2">
-                          <span className="text-blue-500">•</span>
+                        <div key={idx} className="text-xs text-gray-300 flex items-start gap-2">
+                          <span className="text-purple-500">•</span>
                           <span>{insight}</span>
                         </div>
                       ))}
@@ -262,18 +262,18 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
           </div>
 
           {/* Final State Summary */}
-          <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
-            <h4 className="font-semibold text-gray-900 mb-3">Final State</h4>
+          <div className="mt-6 p-4 bg-gradient-to-r from-purple-900/20 to-orange-900/20 rounded-lg border border-purple-700">
+            <h4 className="font-semibold text-white mb-3">Final State</h4>
             <div className="grid grid-cols-5 gap-3">
               {(Object.keys(DIMENSION_NAMES) as Array<keyof typeof DIMENSION_NAMES>).map((key) => {
                 const value = runState.meterState.hiddenState[key];
                 
                 return (
                   <div key={key} className="text-center">
-                    <div className="text-xs text-gray-600 mb-1">
+                    <div className="text-xs text-gray-400 mb-1">
                       {DIMENSION_NAMES[key]}
                     </div>
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-white">
                       {value.toFixed(1)}
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
@@ -284,12 +284,12 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
               })}
             </div>
             
-            <div className="mt-4 pt-4 border-t border-blue-200">
+            <div className="mt-4 pt-4 border-t border-purple-700">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-gray-300">
                   Total Weighted Sum (before normalization):
                 </span>
-                <span className="text-lg font-bold text-gray-900">
+                <span className="text-lg font-bold text-white">
                   {(Object.keys(weights) as Array<keyof typeof weights>).reduce(
                     (sum, key) => sum + runState.meterState.hiddenState[key] * weights[key],
                     0
@@ -297,10 +297,10 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                 </span>
               </div>
               <div className="flex items-center justify-between mt-2">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-gray-300">
                   Final Score (after sigmoid + effects):
                 </span>
-                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
                   {runState.meterState.displayValue.toFixed(1)}%
                 </span>
               </div>

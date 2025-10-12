@@ -79,7 +79,7 @@ export const ScalingMeter = memo(function ScalingMeter({
 
 				{/* Meter Value and Delta */}
 				<div className="flex items-baseline gap-2">
-					<span className="text-4xl font-bold text-gray-800">
+					<span className="text-4xl font-bold text-white">
 						{displayValue.toFixed(1)}%
 					</span>
 					{deltaText && (
@@ -102,7 +102,7 @@ export const ScalingMeter = memo(function ScalingMeter({
 
 			{/* Progress Bar */}
 			<div
-				className="relative h-8 bg-gray-200 rounded-full overflow-hidden shadow-inner"
+				className="relative h-8 bg-gray-900 rounded-full overflow-hidden shadow-inner"
 				role="progressbar"
 				aria-valuenow={displayValue}
 				aria-valuemin={0}
@@ -127,7 +127,7 @@ export const ScalingMeter = memo(function ScalingMeter({
 								// biome-ignore lint/suspicious/noArrayIndexKey: Insights are dynamically generated and may not have stable keys
 								index
 							}`}
-							className="text-sm text-gray-600 flex items-center gap-2"
+							className="text-sm text-gray-300 flex items-center gap-2"
 						>
 							<span>{insight}</span>
 						</div>
@@ -136,7 +136,7 @@ export const ScalingMeter = memo(function ScalingMeter({
 			)}
 
 			{/* Tier Description (subtle) */}
-			<div className="mt-2 text-xs text-gray-400 text-center">
+			<div className="mt-2 text-xs text-gray-500 text-center">
 				{tierConfig.description}
 			</div>
 		</div>

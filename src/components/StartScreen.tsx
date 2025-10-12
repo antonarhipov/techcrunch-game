@@ -47,21 +47,21 @@ export function StartScreen() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
+		<div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
 			<div className="max-w-2xl w-full">
 				{/* Title Section */}
 				<div className="text-center mb-12">
-					<h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+					<h1 className="text-5xl md:text-6xl font-bold text-white mb-4 leading-tight">
 						Choose Your Own
 						<br />
-						<span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+						<span className="bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
 							Startup Adventure
 						</span>
 					</h1>
-					<p className="text-xl text-gray-600 mb-2">
+					<p className="text-xl text-gray-300 mb-2">
 						Build an AI Cofounder SaaS
 					</p>
-					<p className="text-base text-gray-500 max-w-lg mx-auto">
+					<p className="text-base text-gray-400 max-w-lg mx-auto">
 						Make critical decisions as you grow your startup. Every choice
 						impacts your Revenue, Users, System, Customers, and Investors. Can
 						you reach unicorn status?
@@ -69,13 +69,13 @@ export function StartScreen() {
 				</div>
 
 				{/* Main Card */}
-				<div className="bg-white rounded-2xl shadow-2xl p-8 mb-8">
+				<div className="bg-gray-800 rounded-2xl shadow-2xl p-8 mb-8 border border-gray-700">
 					{/* Buttons */}
 					<div className="space-y-4 mb-6">
 						<button
 							type="button"
 							onClick={handleNewRun}
-							className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+							className="w-full py-4 px-6 bg-gradient-to-r from-purple-600 to-orange-500 text-white text-lg font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
 						>
 							🚀 Start New Run
 						</button>
@@ -89,8 +89,8 @@ export function StartScreen() {
 								focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
 								${
 									hasSavedRun
-										? "bg-gray-200 text-gray-900 hover:bg-gray-300 hover:shadow-xl transform hover:scale-[1.02]"
-										: "bg-gray-100 text-gray-400 cursor-not-allowed"
+										? "bg-gray-700 text-white hover:bg-gray-600 hover:shadow-xl transform hover:scale-[1.02]"
+										: "bg-gray-900 text-gray-600 cursor-not-allowed"
 								}
 							`}
 						>
@@ -99,15 +99,15 @@ export function StartScreen() {
 					</div>
 
 					{/* Analytics Consent */}
-					<div className="pt-6 border-t border-gray-200">
+					<div className="pt-6 border-t border-gray-700">
 						<label className="flex items-start gap-3 cursor-pointer group">
 							<input
 								type="checkbox"
 								checked={analyticsConsent}
 								onChange={(e) => handleConsentChange(e.target.checked)}
-								className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+								className="mt-1 w-4 h-4 text-purple-600 border-gray-600 rounded focus:ring-purple-500 focus:ring-2"
 							/>
-							<span className="text-sm text-gray-600 group-hover:text-gray-800">
+							<span className="text-sm text-gray-300 group-hover:text-white">
 								Allow anonymous analytics to help improve the game (no personal
 								information collected)
 							</span>
@@ -116,7 +116,7 @@ export function StartScreen() {
 				</div>
 
 				{/* Game Info */}
-				<div className="text-center space-y-2 text-sm text-gray-500">
+				<div className="text-center space-y-2 text-sm text-gray-400">
 					<p>⏱️ Playtime: ~10-15 minutes</p>
 					<p>🎯 5 key decisions · 32 possible paths · 6 endings</p>
 				</div>

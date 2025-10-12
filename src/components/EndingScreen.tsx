@@ -72,26 +72,26 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4 overflow-auto">
+		<div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4 overflow-auto">
 			<Confetti active={showConfetti} duration={5000} />
 
 			<div className="max-w-4xl w-full py-8">
 				{/* Main Results Card */}
-				<div className="bg-white rounded-2xl shadow-2xl p-8 mb-6">
+				<div className="bg-gray-800 rounded-2xl shadow-2xl p-8 mb-6 border border-gray-700">
 					{/* Tier Badge */}
 					<div className="text-center mb-6">
 						<div className="text-8xl mb-4">{tierConfig.emoji}</div>
-						<h1 className="text-4xl font-bold text-gray-900 mb-2">
+						<h1 className="text-4xl font-bold text-white mb-2">
 							{tierConfig.label}
 						</h1>
-						<div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+						<div className="text-6xl font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent mb-4">
 							{finalMeter.toFixed(1)}%
 						</div>
 					</div>
 
 					{/* Description */}
 					<div className="mb-8">
-						<p className="text-lg text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
+						<p className="text-lg text-gray-300 leading-relaxed text-center max-w-2xl mx-auto">
 							{ending.description}
 						</p>
 					</div>
@@ -99,12 +99,12 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 					{/* Insights Grid */}
 					<div className="grid md:grid-cols-2 gap-6 mb-8">
 						{/* Strengths */}
-						<div className="bg-green-50 rounded-lg p-4 border border-green-200">
-							<h3 className="font-semibold text-green-900 mb-2 flex items-center gap-2">
+						<div className="bg-green-900/20 rounded-lg p-4 border border-green-700">
+							<h3 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
 								<span>✓</span>
 								<span>Your Strengths</span>
 							</h3>
-							<ul className="space-y-1 text-green-800">
+							<ul className="space-y-1 text-green-300">
 								{ending.topDrivers.map((driver) => (
 									<li key={driver}>• {driver}</li>
 								))}
@@ -112,21 +112,21 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 						</div>
 
 						{/* Challenge */}
-						<div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
-							<h3 className="font-semibold text-orange-900 mb-2 flex items-center gap-2">
+						<div className="bg-orange-900/20 rounded-lg p-4 border border-orange-700">
+							<h3 className="font-semibold text-orange-400 mb-2 flex items-center gap-2">
 								<span>⚠</span>
 								<span>Your Challenge</span>
 							</h3>
-							<p className="text-orange-800">• {ending.bottleneck}</p>
+							<p className="text-orange-300">• {ending.bottleneck}</p>
 						</div>
 					</div>
 
 					{/* Next Steps */}
-					<div className="bg-blue-50 rounded-lg p-4 border border-blue-200 mb-8">
-						<h3 className="font-semibold text-blue-900 mb-2">
+					<div className="bg-purple-900/20 rounded-lg p-4 border border-purple-700 mb-8">
+						<h3 className="font-semibold text-purple-400 mb-2">
 							💡 Next Steps
 						</h3>
-						<p className="text-blue-800">{ending.nextStepSuggestion}</p>
+						<p className="text-purple-300">{ending.nextStepSuggestion}</p>
 					</div>
 
 					{/* Action Buttons */}
@@ -134,7 +134,7 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 						<button
 							type="button"
 							onClick={resetRun}
-							className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+							className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-500 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
 						>
 							🔄 Play Again
 						</button>
@@ -148,7 +148,7 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 						<button
 							type="button"
 							onClick={() => handleShare("linkedin")}
-							className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2"
+							className="px-6 py-3 bg-purple-700 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2"
 						>
 							💼 Share on LinkedIn
 						</button>
@@ -166,18 +166,18 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 				<JourneyBreakdown runState={runState} />
 
 				{/* Alternate Path Hints */}
-				<div className="bg-white rounded-xl shadow-lg p-6 text-center mt-6">
-					<p className="text-lg font-semibold text-gray-800 mb-4">
+				<div className="bg-gray-800 rounded-xl shadow-lg p-6 text-center mt-6 border border-gray-700">
+					<p className="text-lg font-semibold text-white mb-4">
 						🤔 Curious about other paths?
 					</p>
 					<div className="space-y-2 mb-4">
 						{hints.map((hint, index) => (
-							<p key={index} className="text-sm text-gray-600 italic">
+							<p key={index} className="text-sm text-gray-300 italic">
 								{hint}
 							</p>
 						))}
 					</div>
-					<p className="text-sm text-gray-500">
+					<p className="text-sm text-gray-400">
 						Try different choices to discover all 6 possible endings!
 					</p>
 				</div>

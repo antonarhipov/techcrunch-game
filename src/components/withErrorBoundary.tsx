@@ -104,15 +104,15 @@ export const AssetPreviewErrorFallback: React.FC<ErrorFallbackProps> = ({
 	error,
 	onRetry,
 }) => (
-	<div className="flex flex-col items-center justify-center p-6 bg-gray-100 rounded-lg">
+	<div className="flex flex-col items-center justify-center p-6 bg-gray-800 rounded-lg border border-gray-700">
 		<div className="text-6xl mb-3">📦</div>
-		<p className="text-sm text-gray-700 mb-2">Failed to load asset</p>
-		<p className="text-xs text-gray-500 mb-4">{error?.message}</p>
+		<p className="text-sm text-gray-300 mb-2">Failed to load asset</p>
+		<p className="text-xs text-gray-400 mb-4">{error?.message}</p>
 		{onRetry && (
 			<button
 				type="button"
 				onClick={onRetry}
-				className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm"
+				className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm"
 			>
 				Retry
 			</button>
