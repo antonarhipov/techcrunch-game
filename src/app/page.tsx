@@ -40,6 +40,24 @@ export default function Home() {
   // Memoize feature flags to avoid recalculating on every render
   const featureFlags = useMemo(() => getFeatureFlags(), []);
 
+  // Memoize ending calculations at top level (only calculated when needed)
+  const ending = useMemo(
+    () => runState && runState.currentStep > 5
+      ? calculateEnding(
+          runState.meterState.displayValue,
+          runState.meterState.hiddenState
+        )
+      : null,
+    [runState?.meterState.displayValue, runState?.meterState.hiddenState, runState?.currentStep]
+  );
+  
+  const hints = useMemo(
+    () => runState && contentPack && runState.currentStep > 5
+      ? generateAlternatePathHints(runState.stepHistory, contentPack)
+      : null,
+    [runState?.stepHistory, runState?.currentStep, contentPack]
+  );
+
   // Determine current screen based on runState
   useEffect(() => {
     if (!runState) {
@@ -176,21 +194,7 @@ export default function Home() {
   }
 
   // Ending screen
-  if (screen === "ending" && runState) {
-    // Memoize expensive ending calculations
-    const ending = useMemo(
-      () => calculateEnding(
-        runState.meterState.displayValue,
-        runState.meterState.hiddenState
-      ),
-      [runState.meterState.displayValue, runState.meterState.hiddenState]
-    );
-    
-    const hints = useMemo(
-      () => generateAlternatePathHints(runState.stepHistory, contentPack!),
-      [runState.stepHistory, contentPack]
-    );
-
+  if (screen === "ending" && runState && ending && hints) {
     return (
       <EndingScreen 
         runState={runState} 
