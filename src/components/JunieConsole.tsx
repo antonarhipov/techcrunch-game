@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 
 export type LogType = "info" | "success" | "warning" | "error";
 
@@ -22,7 +22,7 @@ interface JunieConsoleProps {
 	onClear?: () => void;
 }
 
-export function JunieConsole({
+export const JunieConsole = memo(function JunieConsole({
 	logs,
 	isStreaming = false,
 	onClear,
@@ -90,7 +90,7 @@ export function JunieConsole({
 			</div>
 		</div>
 	);
-}
+});
 
 interface LogEntryComponentProps {
 	log: LogEntry;

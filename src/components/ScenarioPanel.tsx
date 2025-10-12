@@ -20,6 +20,13 @@ export function ScenarioPanel({
 	disabled = false,
 }: ScenarioPanelProps) {
 	const [hoveredChoice, setHoveredChoice] = useState<"A" | "B" | null>(null);
+	const [currentStepId, setCurrentStepId] = useState(step.id);
+
+	// Track step changes for animation
+	const isNewStep = currentStepId !== step.id;
+	if (isNewStep) {
+		setCurrentStepId(step.id);
+	}
 
 	const handleChoiceClick = (choice: "A" | "B") => {
 		if (!disabled) {
@@ -38,7 +45,10 @@ export function ScenarioPanel({
 	};
 
 	return (
-		<div className="h-full flex flex-col">
+		<div 
+			className="h-full flex flex-col animate-step-transition"
+			key={step.id}
+		>
 			{/* Step Header */}
 			<div className="mb-6">
 				<div className="flex items-baseline gap-2 mb-2">
@@ -108,12 +118,30 @@ function ChoiceCard({
 	isHovered,
 	onHoverChange,
 }: ChoiceCardProps) {
+	const [isClicked, setIsClicked] = useState(false);
+
+	const handleClick = () => {
+		if (!disabled) {
+			setIsClicked(true);
+			setTimeout(() => setIsClicked(false), 200);
+			onClick();
+		}
+	};
+
+	const handleKeyPress = (event: React.KeyboardEvent) => {
+		if (!disabled) {
+			setIsClicked(true);
+			setTimeout(() => setIsClicked(false), 200);
+			onKeyDown(event);
+		}
+	};
+
 	return (
 		<div
 			role="button"
 			tabIndex={disabled ? -1 : 0}
-			onClick={onClick}
-			onKeyDown={onKeyDown}
+			onClick={handleClick}
+			onKeyDown={handleKeyPress}
 			onMouseEnter={() => onHoverChange(true)}
 			onMouseLeave={() => onHoverChange(false)}
 			className={`
@@ -121,12 +149,17 @@ function ChoiceCard({
 				${
 					disabled
 						? "opacity-50 cursor-not-allowed bg-gray-100 border-gray-300"
-						: isHovered
-							? "border-blue-500 shadow-lg scale-[1.02] bg-blue-50"
-							: "border-gray-300 shadow-md bg-white hover:border-blue-400"
+						: isClicked
+							? "border-blue-600 shadow-inner scale-[0.98] bg-blue-100"
+							: isHovered
+								? "border-blue-500 shadow-lg scale-[1.02] bg-blue-50"
+								: "border-gray-300 shadow-md bg-white hover:border-blue-400"
 				}
 				focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
 			`}
+			style={{
+				transformOrigin: 'center',
+			}}
 			aria-label={`Choose option ${label}: ${choice.label}`}
 			aria-disabled={disabled}
 		>

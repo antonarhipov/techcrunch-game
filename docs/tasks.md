@@ -606,32 +606,32 @@ This document contains the detailed technical task list for building the **Choos
 ### 8.1 Animations and Transitions
 *Plan: 8.1 | Requirements: 17*
 
-- [ ] **8.1.1** Implement meter bar fill animation in ScalingMeter component using CSS transitions (0.5s ease-out)
-- [ ] **8.1.2** Implement meter delta number animation (fade-in + slide-up effect)
-- [ ] **8.1.3** Implement tier badge transition when crossing boundaries (fade-out old, fade-in new with scale)
-- [ ] **8.1.4** Implement choice card hover animation (scale 1.02, shadow, border glow, 0.2s ease)
-- [ ] **8.1.5** Implement choice card click animation (scale 0.98, brief flash)
-- [ ] **8.1.6** Implement step transition fade-in/out (0.3s fade)
-- [ ] **8.1.7** Implement unluck popup entrance animation (slide-in from top with bounce)
-- [ ] **8.1.8** Implement unluck popup exit animation (fade-out with scale-down)
-- [ ] **8.1.9** Add confetti animation for high-score endings (use canvas or CSS particles)
-- [ ] **8.1.10** Ensure all animations respect `skipAnimations` feature flag (set transition duration to 0ms when enabled)
+- [x] **8.1.1** Implement meter bar fill animation in ScalingMeter component using CSS transitions (0.5s ease-out)
+- [x] **8.1.2** Implement meter delta number animation (fade-in + slide-up effect)
+- [x] **8.1.3** Implement tier badge transition when crossing boundaries (fade-out old, fade-in new with scale)
+- [x] **8.1.4** Implement choice card hover animation (scale 1.02, shadow, border glow, 0.2s ease)
+- [x] **8.1.5** Implement choice card click animation (scale 0.98, brief flash)
+- [x] **8.1.6** Implement step transition fade-in/out (0.3s fade)
+- [x] **8.1.7** Implement unluck popup entrance animation (slide-in from top with bounce)
+- [x] **8.1.8** Implement unluck popup exit animation (fade-out with scale-down)
+- [x] **8.1.9** Add confetti animation for high-score endings (use canvas or CSS particles)
+- [x] **8.1.10** Ensure all animations respect `skipAnimations` feature flag (set transition duration to 0ms when enabled)
 - [ ] **8.1.11** Test animations on 60Hz and 120Hz displays (ensure smooth performance)
-- [ ] **8.1.12** Use `prefers-reduced-motion` CSS media query to respect user preferences
-- [ ] **8.1.13** Optionally use Framer Motion library for complex animations (install if needed)
+- [x] **8.1.12** Use `prefers-reduced-motion` CSS media query to respect user preferences
+- [x] **8.1.13** Optionally use Framer Motion library for complex animations (install if needed)
 
 ### 8.2 Accessibility Improvements
 *Plan: 8.2 | Requirements: 18*
 
-- [ ] **8.2.1** Add `tabIndex={0}` to all interactive elements (choice cards, buttons)
-- [ ] **8.2.2** Implement visible focus indicators using Tailwind `focus:ring-2 focus:ring-blue-500`
-- [ ] **8.2.3** Add `role="button"` to clickable cards
-- [ ] **8.2.4** Add descriptive `aria-label` to all buttons and cards (e.g., "Choose Option A: Add subscription billing")
-- [ ] **8.2.5** Add `aria-live="polite"` to JunieConsole for screen reader announcements
-- [ ] **8.2.6** Add `aria-valuenow`, `aria-valuemin`, `aria-valuemax` to meter progress bar
-- [ ] **8.2.7** Add text alternatives for tier emojis (e.g., `<span aria-label="Unicorn">🦄</span>`)
-- [ ] **8.2.8** Implement keyboard navigation for modals (Escape to close, Tab to cycle focus)
-- [ ] **8.2.9** Ensure color is not the only way to convey information (add +/- icons to meter delta)
+- [x] **8.2.1** Add `tabIndex={0}` to all interactive elements (choice cards, buttons)
+- [x] **8.2.2** Implement visible focus indicators using Tailwind `focus:ring-2 focus:ring-blue-500`
+- [x] **8.2.3** Add `role="button"` to clickable cards
+- [x] **8.2.4** Add descriptive `aria-label` to all buttons and cards (e.g., "Choose Option A: Add subscription billing")
+- [x] **8.2.5** Add `aria-live="polite"` to JunieConsole for screen reader announcements
+- [x] **8.2.6** Add `aria-valuenow`, `aria-valuemin`, `aria-valuemax` to meter progress bar
+- [x] **8.2.7** Add text alternatives for tier emojis (e.g., `<span aria-label="Unicorn">🦄</span>`)
+- [x] **8.2.8** Implement keyboard navigation for modals (Escape to close, Tab to cycle focus)
+- [x] **8.2.9** Ensure color is not the only way to convey information (add +/- icons to meter delta)
 - [ ] **8.2.10** Test with screen reader (NVDA on Windows or VoiceOver on Mac)
 - [ ] **8.2.11** Test keyboard-only navigation (Tab, Enter, Space, Escape)
 - [ ] **8.2.12** Run automated accessibility audit (Lighthouse, axe DevTools)
@@ -640,16 +640,16 @@ This document contains the detailed technical task list for building the **Choos
 ### 8.3 Performance Optimization
 *Plan: 8.3 | Requirements: 17*
 
-- [ ] **8.3.1** Implement code-splitting for heavy dependencies: `const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'))`
-- [ ] **8.3.2** Lazy-load YAML parser only when YAML pack is detected
+- [x] **8.3.1** Implement code-splitting for heavy dependencies: `const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'))`
+- [x] **8.3.2** Lazy-load YAML parser only when YAML pack is detected
 - [ ] **8.3.3** Implement route-based code-splitting (start screen, game, ending screen as separate chunks)
 - [ ] **8.3.4** Optimize images: compress, convert to WebP, use responsive sizes
-- [ ] **8.3.5** Minimize initial JS bundle: analyze with `npm run build` and bundle analyzer
-- [ ] **8.3.6** Target <500KB initial JS bundle (gzipped)
-- [ ] **8.3.7** Implement asset preloading for next step while current step is active (use `<link rel="prefetch">`)
-- [ ] **8.3.8** Use `React.memo()` for expensive components (JunieConsole, ScalingMeter)
-- [ ] **8.3.9** Use `useMemo()` for expensive calculations (insights generation, ending calculation)
-- [ ] **8.3.10** Use `useCallback()` for event handlers passed to child components
+- [x] **8.3.5** Minimize initial JS bundle: analyze with `npm run build` and bundle analyzer
+- [x] **8.3.6** Target <500KB initial JS bundle (gzipped)
+- [x] **8.3.7** Implement asset preloading for next step while current step is active (use `<link rel="prefetch">`)
+- [x] **8.3.8** Use `React.memo()` for expensive components (JunieConsole, ScalingMeter)
+- [x] **8.3.9** Use `useMemo()` for expensive calculations (insights generation, ending calculation)
+- [x] **8.3.10** Use `useCallback()` for event handlers passed to child components
 - [ ] **8.3.11** Avoid unnecessary re-renders: verify with React DevTools Profiler
 - [ ] **8.3.12** Test load time on slow 3G connection (Chrome DevTools throttling)
 - [ ] **8.3.13** Run Lighthouse performance audit, target score >90
@@ -658,17 +658,17 @@ This document contains the detailed technical task list for building the **Choos
 ### 8.4 Error Boundaries and Handling
 *Plan: 8.4 | Requirements: 16*
 
-- [ ] **8.4.1** Create `src/components/ErrorBoundary.tsx` component
-- [ ] **8.4.2** Implement `componentDidCatch(error, errorInfo)` logging error to console
-- [ ] **8.4.3** Implement fallback UI: display friendly error message, "Something went wrong" heading
-- [ ] **8.4.4** Add "Restart Game" button calling `resetRun()` and reloading page
-- [ ] **8.4.5** Add "Report Issue" button (optional) opening GitHub issue or email
-- [ ] **8.4.6** Wrap main App component with ErrorBoundary
-- [ ] **8.4.7** Implement error fallbacks for specific components (AssetPreview, JunieConsole)
-- [ ] **8.4.8** Handle localStorage errors gracefully: catch exceptions, log warning, continue without persistence
-- [ ] **8.4.9** Display toast notification when localStorage is unavailable: "Note: Progress won't be saved (localStorage unavailable)"
-- [ ] **8.4.10** Handle content pack load failures: fall back to default pack, display warning
-- [ ] **8.4.11** Handle content pack validation failures: show detailed errors, offer to load default pack
+- [x] **8.4.1** Create `src/components/ErrorBoundary.tsx` component
+- [x] **8.4.2** Implement `componentDidCatch(error, errorInfo)` logging error to console
+- [x] **8.4.3** Implement fallback UI: display friendly error message, "Something went wrong" heading
+- [x] **8.4.4** Add "Restart Game" button calling `resetRun()` and reloading page
+- [x] **8.4.5** Add "Report Issue" button (optional) opening GitHub issue or email
+- [x] **8.4.6** Wrap main App component with ErrorBoundary
+- [x] **8.4.7** Implement error fallbacks for specific components (AssetPreview, JunieConsole)
+- [x] **8.4.8** Handle localStorage errors gracefully: catch exceptions, log warning, continue without persistence
+- [x] **8.4.9** Display toast notification when localStorage is unavailable: "Note: Progress won't be saved (localStorage unavailable)"
+- [x] **8.4.10** Handle content pack load failures: fall back to default pack, display warning
+- [x] **8.4.11** Handle content pack validation failures: show detailed errors, offer to load default pack
 - [ ] **8.4.12** Test error scenarios: throw error in component, corrupt localStorage data, invalid content pack
 - [ ] **8.4.13** Verify error boundary catches errors and displays fallback UI
 

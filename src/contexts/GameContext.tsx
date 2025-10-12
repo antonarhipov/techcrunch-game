@@ -16,8 +16,9 @@ import React, {
 } from "react";
 import type { RunState, StepResult, MeterState, ContentPack } from "@/types/game";
 import { createInitialMeterState } from "@/lib/meter-engine";
-import { saveRunState, loadRunState, clearRunState } from "@/lib/storage";
+import { saveRunState, loadRunState, clearRunState, isLocalStorageAvailable } from "@/lib/storage";
 import { getPackManager } from "@/lib/pack-manager";
+import { useToast } from "./ToastContext";
 
 /**
  * Game Context Value
@@ -68,6 +69,20 @@ export function GameProvider({ children }: GameProviderProps): React.ReactElemen
   const [runState, setRunState] = useState<RunState | null>(null);
   const [contentPack, setContentPack] = useState<ContentPack | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { showToast } = useToast();
+
+  /**
+   * Check localStorage availability on mount and show warning if unavailable
+   */
+  useEffect(() => {
+    if (!isLocalStorageAvailable()) {
+      showToast(
+        "Note: Progress won't be saved (localStorage unavailable). You can still play, but your game state will be lost on page refresh.",
+        "warning",
+        8000
+      );
+    }
+  }, [showToast]);
 
   /**
    * Load content pack on mount
@@ -80,13 +95,18 @@ export function GameProvider({ children }: GameProviderProps): React.ReactElemen
         setContentPack(pack);
       } catch (error) {
         console.error("Failed to load content pack:", error);
+        showToast(
+          "Failed to load content pack. Using default content.",
+          "error",
+          5000
+        );
       } finally {
         setIsLoading(false);
       }
     }
 
     loadPack();
-  }, []);
+  }, [showToast]);
 
   /**
    * Start a new run

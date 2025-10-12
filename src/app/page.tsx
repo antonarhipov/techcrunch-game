@@ -5,7 +5,7 @@
  * Orchestrates game flow and screen transitions
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useGame } from "@/contexts/GameContext";
 import { getFeatureFlags } from "@/lib/feature-flags";
 import { processStepChoice } from "@/lib/game-flow";
@@ -37,7 +37,8 @@ export default function Home() {
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [previousMeterValue, setPreviousMeterValue] = useState<number | undefined>(undefined);
 
-  const featureFlags = getFeatureFlags();
+  // Memoize feature flags to avoid recalculating on every render
+  const featureFlags = useMemo(() => getFeatureFlags(), []);
 
   // Determine current screen based on runState
   useEffect(() => {
@@ -49,6 +50,22 @@ export default function Home() {
       setScreen("playing");
     }
   }, [runState]);
+
+  // Preload assets for next step while current step is active
+  useEffect(() => {
+    if (runState && contentPack && runState.currentStep < 5) {
+      const nextStep = contentPack.steps.find(s => s.id === runState.currentStep + 1);
+      if (nextStep?.assets && nextStep.assets.length > 0) {
+        // Preload assets in the background
+        nextStep.assets.forEach((assetUrl) => {
+          const link = document.createElement('link');
+          link.rel = 'prefetch';
+          link.href = assetUrl;
+          document.head.appendChild(link);
+        });
+      }
+    }
+  }, [runState?.currentStep, contentPack]);
 
   /**
    * Handle choice selection
@@ -160,11 +177,19 @@ export default function Home() {
 
   // Ending screen
   if (screen === "ending" && runState) {
-    const ending = calculateEnding(
-      runState.meterState.displayValue,
-      runState.meterState.hiddenState
+    // Memoize expensive ending calculations
+    const ending = useMemo(
+      () => calculateEnding(
+        runState.meterState.displayValue,
+        runState.meterState.hiddenState
+      ),
+      [runState.meterState.displayValue, runState.meterState.hiddenState]
     );
-    const hints = generateAlternatePathHints(runState.stepHistory, contentPack!);
+    
+    const hints = useMemo(
+      () => generateAlternatePathHints(runState.stepHistory, contentPack!),
+      [runState.stepHistory, contentPack]
+    );
 
     return (
       <EndingScreen 

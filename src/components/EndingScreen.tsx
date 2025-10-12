@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import type { RunState } from "@/types/game";
 import { getTierConfig } from "@/lib/tiers";
 import { useGame } from "@/contexts/GameContext";
+import { Confetti } from "./Confetti";
 
 export interface EndingData {
 	tier: string;
@@ -71,7 +72,7 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4 overflow-auto">
-			{showConfetti && <ConfettiEffect />}
+			<Confetti active={showConfetti} duration={5000} />
 
 			<div className="max-w-4xl w-full py-8">
 				{/* Main Results Card */}
@@ -182,29 +183,6 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 						Try different choices to discover all 6 possible endings!
 					</p>
 				</div>
-			</div>
-		</div>
-	);
-}
-
-function ConfettiEffect() {
-	return (
-		<div className="fixed inset-0 pointer-events-none z-50">
-			<div className="absolute top-0 left-0 w-full h-full animate-confetti">
-				{/* Simple confetti effect with CSS */}
-				<style jsx>{`
-					@keyframes confetti {
-						0% {
-							transform: translateY(-100vh) rotate(0deg);
-						}
-						100% {
-							transform: translateY(100vh) rotate(360deg);
-						}
-					}
-					.animate-confetti {
-						animation: confetti 3s ease-out;
-					}
-				`}</style>
 			</div>
 		</div>
 	);

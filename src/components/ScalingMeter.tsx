@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import type { MeterState } from "@/types/game";
 import { getTierConfig, getTierGradientClass } from "@/lib/tiers";
 import { generateInsights } from "@/lib/insights";
@@ -17,7 +17,7 @@ interface ScalingMeterProps {
 	skipAnimations?: boolean;
 }
 
-export function ScalingMeter({
+export const ScalingMeter = memo(function ScalingMeter({
 	meterState,
 	previousValue,
 	showInsights = true,
@@ -55,7 +55,12 @@ export function ScalingMeter({
 	const transitionDuration = skipAnimations ? "0ms" : "500ms";
 
 	return (
-		<div className="px-6 py-4">
+		<div 
+			className="px-6 py-4"
+			style={{
+				animation: skipAnimations ? 'none' : undefined,
+			}}
+		>
 			{/* Header with tier badge and value */}
 			<div className="flex items-center justify-between mb-3">
 				{/* Tier Badge */}
@@ -81,13 +86,15 @@ export function ScalingMeter({
 						<span
 							className={`text-xl font-semibold ${
 								delta && delta > 0 ? "text-green-600" : "text-red-600"
-							} transition-opacity ${
-								isAnimating && !skipAnimations ? "opacity-100" : "opacity-70"
+							} transition-all ${
+								isAnimating && !skipAnimations 
+									? "opacity-100 translate-y-0" 
+									: "opacity-70 translate-y-1"
 							}`}
 							style={{ transitionDuration }}
 							aria-label={`Change: ${deltaText}`}
 						>
-							{deltaText}
+							{delta && delta > 0 ? "▲" : "▼"} {deltaText}
 						</span>
 					)}
 				</div>
@@ -134,5 +141,5 @@ export function ScalingMeter({
 			</div>
 		</div>
 	);
-}
+});
 
