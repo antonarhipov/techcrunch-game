@@ -129,12 +129,6 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 						<p className="text-blue-800">{ending.nextStepSuggestion}</p>
 					</div>
 
-					{/* Path Taken */}
-					<div className="text-center mb-8">
-						<h3 className="font-semibold text-gray-700 mb-2">Your Journey</h3>
-						<div className="text-2xl text-gray-600 font-mono">{pathTaken}</div>
-					</div>
-
 					{/* Action Buttons */}
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
 						<button
@@ -144,7 +138,7 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 						>
 							🔄 Play Again
 						</button>
-						<button
+						{/* <button
 							type="button"
 							onClick={() => handleShare("twitter")}
 							className="px-6 py-3 bg-sky-500 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
@@ -164,7 +158,7 @@ export function EndingScreen({ runState, ending, hints }: EndingScreenProps) {
 							className="px-6 py-3 bg-gray-200 text-gray-900 font-semibold rounded-lg shadow-md hover:shadow-xl hover:bg-gray-300 transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
 						>
 							🔗 Copy Link
-						</button>
+						</button> */}
 					</div>
 				</div>
 
