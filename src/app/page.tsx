@@ -36,6 +36,7 @@ export default function Home() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [previousMeterValue, setPreviousMeterValue] = useState<number | undefined>(undefined);
+  const [showFinishButton, setShowFinishButton] = useState(false);
 
   // Memoize feature flags to avoid recalculating on every render
   const featureFlags = useMemo(() => getFeatureFlags(), []);
@@ -62,12 +63,20 @@ export default function Home() {
   useEffect(() => {
     if (!runState) {
       setScreen("start");
+      setShowFinishButton(false);
     } else if (runState.currentStep > 5) {
-      setScreen("ending");
+      // Game is complete - show finish button but stay on playing screen
+      // Don't automatically go to ending - wait for user to click button
+      if (screen !== "ending") {
+        setScreen("playing");
+        setShowFinishButton(true);
+      }
     } else {
+      // Normal gameplay
       setScreen("playing");
+      setShowFinishButton(false);
     }
-  }, [runState]);
+  }, [runState?.currentStep, screen]);
 
   // Preload assets for next step while current step is active
   useEffect(() => {
@@ -175,6 +184,13 @@ export default function Home() {
     setUnluckResult(null);
   }, []);
 
+  /**
+   * Handle finish game button click (after final step)
+   */
+  const handleFinishGame = useCallback(() => {
+    setScreen("ending");
+  }, []);
+
 
   // Loading state
   if (isLoading) {
@@ -206,6 +222,64 @@ export default function Home() {
 
   // Game screen
   if (screen === "playing" && runState && contentPack) {
+    // If game is complete (step > 5) and finish button should be shown
+    if (runState.currentStep > 5 && showFinishButton) {
+      return (
+        <>
+          <GameLayout
+            scenarioPanel={
+              <div className="flex flex-col items-center justify-center h-full p-8">
+                <div className="max-w-2xl w-full text-center space-y-6">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h2 className="text-3xl font-bold text-gray-900">
+                    Journey Complete!
+                  </h2>
+                  <p className="text-lg text-gray-600">
+                    You've made all your decisions. Your AI cofounder has shipped code,
+                    faced challenges, and adapted along the way.
+                  </p>
+                  <p className="text-gray-600">
+                    Check the console to see what Junie built, and review your final
+                    metrics in the scaling meter.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleFinishGame}
+                    disabled={isStreaming}
+                    className="mt-8 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isStreaming ? "Processing..." : "See Final Results 🎯"}
+                  </button>
+                </div>
+              </div>
+            }
+            consolePanel={
+              <JunieConsole
+                logs={consoleLogs}
+                isStreaming={isStreaming}
+              />
+            }
+            meterPanel={
+              <ScalingMeter
+                meterState={runState.meterState}
+                previousValue={previousMeterValue}
+                showInsights={true}
+              />
+            }
+          />
+
+          {/* Unluck Popup */}
+          {unluckResult && (
+            <UnluckPopup
+              unluckResult={unluckResult}
+              onClose={handleUnluckClose}
+            />
+          )}
+        </>
+      );
+    }
+
+    // Normal gameplay - show current step
     const currentStep = contentPack.steps.find(s => s.id === runState.currentStep);
 
     if (!currentStep) {
