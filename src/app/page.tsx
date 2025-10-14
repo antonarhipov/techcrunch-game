@@ -318,7 +318,7 @@ export default function Home() {
         {/* Video Modal */}
         <VideoModal
           isOpen={showVideoModal}
-          videoSrc="/video/clip1.mp4"
+          videoSrc={(pendingChoice === "A" ? currentStep.optionA.video : pendingChoice === "B" ? currentStep.optionB.video : undefined) ?? "/video/clip1.mp4"}
           onClose={handleVideoComplete}
           onComplete={handleVideoComplete}
         />

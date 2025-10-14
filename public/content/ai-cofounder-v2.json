@@ -1,0 +1,105 @@
+{
+  "id": "ai-cofounder-v1",
+  "version": "1.0.0",
+  "title": "AI Cofounder Startup Adventure",
+  "description": "Build an AI Cofounder SaaS from seed round to global expansion",
+  "author": "Startup Game Team",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Early Maturity Stage",
+      "subtitle": "Securing the Base",
+      "scenario": "Congrats! You just raised your Seed round 🥳. Time to show progress building AI Cofounder. Your first technical decisions will set the foundation for everything that follows.",
+      "optionA": {
+        "label": "Add Subscription Payments",
+        "body": "Integrate Stripe subscriptions with billing tiers for Solo, Team, and Enterprise. Get founders paying monthly for their AI buddy. This will drive immediate revenue but requires careful billing logic.",
+        "delta": { "R": 10, "U": 4, "S": 0, "C": 0, "I": -2 },
+        "video": "/video/1a.mp4"
+      },
+      "optionB": {
+        "label": "Launch Investor Dashboard",
+        "body": "Build an MVP dashboard for investors with real-time charts for 'Founder Signups,' 'Feature Requests,' and 'Founder Happiness Index.' Show traction to keep investors engaged, but may distract from core product.",
+        "delta": { "R": -3, "U": 0, "S": 0, "C": 0, "I": 10 },
+        "video": "/video/1b.mp4"
+      }
+    },
+    {
+      "id": 2,
+      "title": "First Customers & Onboarding",
+      "subtitle": "Making Cofounder Sticky",
+      "scenario": "Early adopters are trying your AI Cofounder. The big challenge: do they stick around? Your onboarding experience will make or break retention.",
+      "optionA": {
+        "label": "Create Bold Landing Page",
+        "body": "Generate a bold, funny landing page with '🔥 Replace your cofounder with AI (without the equity drama).' Drive acquisition through viral marketing, but user activation still needs work.",
+        "delta": { "R": 0, "U": 8, "S": 0, "C": -2, "I": 0 },
+        "video": "/video/2a.mp4"
+      },
+      "optionB": {
+        "label": "Build Onboarding Flow",
+        "body": "Code an automated onboarding flow: Welcome email, product tour, and a snarky first chat from AI Cofounder ('Hi, I'm your smarter half'). Maximize activation and retention, but slower to scale acquisition.",
+        "delta": { "R": 0, "U": -2, "S": 0, "C": 8, "I": 0 },
+        "video": "/video/2b.mp4"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Growth Stage",
+      "subtitle": "Expanding Capabilities",
+      "scenario": "Founders love AI Cofounder, but now they're asking: Can it do more? Time to expand beyond the MVP and add features that drive real value.",
+      "optionA": {
+        "label": "Add Collaboration Features",
+        "body": "Build multi-user support with role-based access and shared workspaces. Let multiple founders (or teams) share one AI Cofounder account. Great for viral growth but technically complex.",
+        "delta": { "R": 5, "U": 6, "S": -3, "C": 0, "I": 0 },
+        "video": "/video/3a.mp4"
+      },
+      "optionB": {
+        "label": "Add Analytics Dashboard",
+        "body": "Add a metrics dashboard showing 'Code Commits by AI Cofounder,' 'Investor Emails Drafted,' and 'Arguments Resolved.' Help founders see value, but may not drive as much viral growth.",
+        "delta": { "R": 0, "U": -2, "S": 0, "C": 6, "I": 4 },
+        "video": "/video/3b.mp4"
+      }
+    },
+    {
+      "id": 4,
+      "title": "Viral Growth Spike",
+      "subtitle": "When Founders Tell Founders",
+      "scenario": "AI Cofounder gets featured on Product Hunt 🚀. Thousands of desperate founders sign up overnight. Your infrastructure and support systems are about to be stress-tested like never before.",
+      "optionA": {
+        "label": "Fix Server Scaling",
+        "body": "Spin up autoscaling, add monitoring, and stabilize infrastructure as thousands of AI Cofounders argue with themselves. Keep the lights on but expensive and reactive.",
+        "delta": { "R": 0, "U": 0, "S": 10, "C": 0, "I": 3 },
+        "video": "/video/4a.mp4"
+      },
+      "optionB": {
+        "label": "Launch AI Support Bot",
+        "body": "Build automated customer support chatbot that can answer FAQs like 'Can my Cofounder raise funding for me while I sleep?' Scale support efficiently but risk quality issues.",
+        "delta": { "R": 0, "U": 0, "S": -5, "C": 7, "I": 4 },
+        "video": "/video/4b.mp4"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Global Expansion",
+      "subtitle": "Cofounders Everywhere",
+      "scenario": "Founders around the world want their own AI Cofounder 🌍. Time to globalize. Your decisions here will determine if you can scale internationally or remain a US-only product.",
+      "optionA": {
+        "label": "Add Multilingual Support",
+        "body": "Auto-translate AI Cofounder's witty comments into Spanish, Japanese, Estonian, and more. Keep the humor intact across languages. Expand global reach but complex localization challenges.",
+        "delta": { "R": 0, "U": 6, "S": 0, "C": 5, "I": 0 },
+        "video": "/video/5a.mp4"
+      },
+      "optionB": {
+        "label": "Enable International Payments",
+        "body": "Integrate global payment providers so founders in Berlin, Tokyo, and São Paulo can pay in EUR, JPY, BRL. Unlock global revenue but complex financial compliance.",
+        "delta": { "R": 8, "U": 0, "S": 0, "C": -2, "I": 3 },
+        "video": "/video/5b.mp4"
+      }
+    }
+  ],
+  "metadata": {
+    "theme": "ai-cofounder",
+    "difficulty": "balanced",
+    "estimatedPlaytime": "5-7 minutes"
+  }
+}
+

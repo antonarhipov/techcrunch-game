@@ -29,6 +29,8 @@ export interface Choice {
   body: string;
   /** Impact on hidden dimensions */
   delta: Delta;
+  /** Optional video clip path for this option */
+  video?: string;
 }
 
 /**

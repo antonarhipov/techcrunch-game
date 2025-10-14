@@ -157,7 +157,7 @@ export async function loadContentPack(packIdOrUrl: string): Promise<ContentPack>
  */
 export async function getDefaultContentPack(): Promise<ContentPack> {
   try {
-    return await loadContentPackFromFile("ai-cofounder-v1");
+    return await loadContentPackFromFile("ai-cofounder-v2");
   } catch (error) {
     console.error("Failed to load default content pack:", error);
     
