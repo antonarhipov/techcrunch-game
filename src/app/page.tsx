@@ -127,14 +127,14 @@ export default function Home() {
           luckFactor: result.stepResult.luckFactor || 1.0,
           message: result.stepResult.unluckApplied 
             ? (result.stepResult.perfectStorm 
-              ? "Perfect Storm occurred!" 
-              : "Unluck occurred!")
+              ? "Perfect Storm!"
+              : "Bad Luck!")
             : null,
           perfectStorm: result.stepResult.perfectStorm,
         });
       }
 
-      // Get console script for this step/choice
+      // Get a console script for this step/choice
       const script = getConsoleScript(result.stepResult.stepId, choice);
       
       // Stream console logs

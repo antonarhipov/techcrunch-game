@@ -129,7 +129,7 @@ export function OperatorPanel({
 							/>
 
 							<NumberInput
-								label="Unluck Factor Override"
+								label="Bad Luck Factor Override"
 								value={featureFlags.unluckFactorOverride}
 								onChange={(value) => handleToggle("unluckFactorOverride", value)}
 								placeholder="0.4-0.7"

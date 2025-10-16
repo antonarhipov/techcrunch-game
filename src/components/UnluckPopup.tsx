@@ -118,7 +118,7 @@ export function UnluckPopup({
 						id="unluck-title"
 						className="text-2xl font-bold uppercase tracking-wide"
 					>
-						{isPerfectStorm ? "PERFECT STORM!" : "Unluck!"}
+						{isPerfectStorm ? "PERFECT STORM!" : "Bad luck!"}
 					</h2>
 				</div>
 

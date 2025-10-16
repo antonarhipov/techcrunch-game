@@ -235,7 +235,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                           <span className={`font-semibold ${
                             step.perfectStorm ? "text-red-400" : "text-orange-400"
                           }`}>
-                            {step.perfectStorm ? "Perfect Storm!" : "Unluck Event"}
+                            {step.perfectStorm ? "Perfect Storm!" : "Bad Luck!"}
                           </span>
                           <span className="text-gray-300 ml-2">
                             Gains reduced to {((step.luckFactor ?? 1) * 100).toFixed(0)}%

@@ -70,6 +70,27 @@ const DIMENSION_LABELS: Record<keyof Delta, string> = {
 };
 
 /**
+ * Human-friendly sentences for strengths and bottlenecks
+ */
+const STRENGTH_DESCRIPTIONS: Record<string, string> = {
+  Revenue: "Revenue is trending up thanks to smart monetization.",
+  Users: "User growth is strong—acquisition and activation are working.",
+  System: "Your system is stable and scaling with demand.",
+  Customers: "Customers are satisfied and sticking around.",
+  Investors: "Investor confidence is high and support is steady.",
+  Persistence: "You kept going—persistence carried you through tough spots.",
+};
+
+const BOTTLENECK_DESCRIPTIONS: Record<string, string> = {
+  Revenue: "Revenue is the weak spot—pricing and conversion need attention.",
+  Users: "User growth is lagging—acquisition or activation is holding you back.",
+  System: "System reliability is a risk—tech debt or scaling issues are slowing you down.",
+  Customers: "Customer success needs work—churn or low NPS is dragging performance.",
+  Investors: "Investor momentum is soft—storytelling and updates aren't landing.",
+  Everything: "Several areas are underperforming—focus will help you regain momentum.",
+};
+
+/**
  * Calculate ending tier based on final meter value
  * @param finalMeter - Final meter value (0-100)
  * @returns Tier identifier
@@ -175,12 +196,16 @@ export function calculateEnding(finalMeter: number, hiddenState: Delta): EndingD
   const tierName = calculateEndingTier(finalMeter);
   const tierData = ENDING_TIERS.find(t => t.tier === tierName) ?? ENDING_TIERS[ENDING_TIERS.length - 1]!;
   
-  // Identify strengths and weaknesses
-  const topDrivers = identifyTopDrivers(hiddenState);
-  const bottleneck = identifyBottleneck(hiddenState);
+  // Identify strengths and weaknesses (labels)
+  const topDriverLabels = identifyTopDrivers(hiddenState);
+  const bottleneckLabel = identifyBottleneck(hiddenState);
   
-  // Generate personalized advice
-  const nextStepSuggestion = generateNextStepSuggestion(bottleneck, tierName);
+  // Generate personalized advice using label (do not change)
+  const nextStepSuggestion = generateNextStepSuggestion(bottleneckLabel, tierName);
+  
+  // Convert labels to concise sentences for UI
+  const topDrivers = topDriverLabels.map((label) => STRENGTH_DESCRIPTIONS[label] ?? `You're doing well in ${label.toLowerCase()}.`);
+  const bottleneck = BOTTLENECK_DESCRIPTIONS[bottleneckLabel] ?? `Your main challenge is ${bottleneckLabel.toLowerCase()}.`;
   
   return {
     tier: tierData.tier,
