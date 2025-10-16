@@ -36,7 +36,7 @@ Each choice impacts your company's scaling meter (0-100%), with **32 possible pa
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd startup-game-2
+cd techcrunch-game
 
 # Install dependencies
 npm install
@@ -82,7 +82,7 @@ npm run lint
 ## 📁 Project Structure
 
 ```
-startup-game-2/
+techcrunch-game/
 ├── docs/                      # Documentation
 │   ├── requirements.md        # Project requirements and acceptance criteria
 │   ├── plan.md               # Implementation plan and milestones
