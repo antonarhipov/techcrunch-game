@@ -257,7 +257,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                     const suffix: Record<keyof typeof weights, number> = keys.reduce((acc, key) => {
                       let s = 0;
                       for (let j = index; j < runState.stepHistory.length; j++) {
-                        s += runState.stepHistory[j].appliedDelta[key];
+                        s += runState.stepHistory[j]?.appliedDelta[key] ?? 0;
                       }
                       acc[key] = s;
                       return acc;
