@@ -25,8 +25,19 @@ const DIMENSION_NAMES = {
 export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showFormula, setShowFormula] = useState(false);
+  const [openStepFormulas, setOpenStepFormulas] = useState<Record<number, boolean>>({});
 
   const weights = DEFAULT_CONFIG.weights;
+  const hidden = runState.meterState.hiddenState;
+  const rawWeightedSum = (Object.keys(weights) as Array<keyof typeof weights>).reduce(
+    (sum, key) => sum + hidden[key] * weights[key],
+    0
+  );
+  const { mu, sigma } = DEFAULT_CONFIG.sigmoid;
+  const sigmoid = (x: number) => 100 / (1 + Math.exp(-(x - mu) / sigma));
+  const baseScore = sigmoid(rawWeightedSum);
+  const effectsDelta = runState.meterState.displayValue - baseScore;
+  const signedEffects = `${effectsDelta >= 0 ? "+" : ""}${effectsDelta.toFixed(1)}`;
 
   return (
     <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
@@ -155,7 +166,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                     <span className="text-lg font-semibold text-white">
                       Step {step.stepId}
                     </span>
-                    <span className="px-2 py-1 text-xs font-medium rounded border border-purple-600 bg-purple-700/30 text-purple-300">
+                    <span className="px-2 py-1 text-xs font-medium rounded border border-purple-300 bg-purple-900/5 text-purple-50">
                       Choice {step.choice}
                     </span>
                   </div>
@@ -203,7 +214,21 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                     })}
                   </div>
 
+                  {/* Per-step formula toggle */}
+                  <div className="mb-2 flex justify-start">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenStepFormulas((prev) => ({ ...prev, [step.stepId]: !(prev[step.stepId] ?? false) }))
+                      }
+                      className="inline-flex items-center gap-2 px-2 py-1 text-xs font-medium rounded border border-purple-600 bg-purple-700/30 text-purple-300 hover:border-purple-500 hover:bg-purple-700/40 transition-colors"
+                    >
+                      {(openStepFormulas[step.stepId] ?? false) ? "Hide formulas" : "Show formulas"}
+                    </button>
+                  </div>
+
                   {/* Weighted Contribution */}
+                  {(openStepFormulas[step.stepId] ?? false) && (
                   <div className="text-xs text-gray-300 bg-purple-800/20 border border-purple-700 p-2 rounded">
                     <span className="font-medium">Weighted impact:</span>{" "}
                     <span className="font-mono">
@@ -224,6 +249,57 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                       ).toFixed(1)}
                     </span>
                   </div>
+                  )}
+
+                  {/* Sigmoid + Effects for this step */}
+                  {(openStepFormulas[step.stepId] ?? false) && (() => {
+                    const keys = Object.keys(weights) as Array<keyof typeof weights>;
+                    const suffix: Record<keyof typeof weights, number> = keys.reduce((acc, key) => {
+                      let s = 0;
+                      for (let j = index; j < runState.stepHistory.length; j++) {
+                        s += runState.stepHistory[j].appliedDelta[key];
+                      }
+                      acc[key] = s;
+                      return acc;
+                    }, {} as Record<keyof typeof weights, number>);
+
+                    const hiddenBefore: Record<keyof typeof weights, number> = keys.reduce((obj, key) => {
+                      obj[key] = hidden[key] - suffix[key];
+                      return obj;
+                    }, {} as Record<keyof typeof weights, number>);
+
+                    const rawBefore = keys.reduce((sum, key) => sum + hiddenBefore[key] * weights[key], 0);
+
+                    const hiddenAfter: Record<keyof typeof weights, number> = keys.reduce((obj, key) => {
+                      obj[key] = hiddenBefore[key] + step.appliedDelta[key];
+                      return obj;
+                    }, {} as Record<keyof typeof weights, number>);
+
+                    const rawAfter = keys.reduce((sum, key) => sum + hiddenAfter[key] * weights[key], 0);
+
+                    const baseBefore = sigmoid(rawBefore);
+                    const baseAfter = sigmoid(rawAfter);
+                    const baseDelta = baseAfter - baseBefore;
+                    const totalDelta = step.meterAfter - step.meterBefore;
+                    const effectsDeltaStep = totalDelta - baseDelta;
+
+                    const signedBase = `${baseDelta >= 0 ? "+" : ""}${baseDelta.toFixed(1)}`;
+                    const signedEffectsStep = `${effectsDeltaStep >= 0 ? "+" : ""}${effectsDeltaStep.toFixed(1)}`;
+                    const signedTotal = `${totalDelta >= 0 ? "+" : ""}${totalDelta.toFixed(1)}`;
+
+                    return (
+                      <div className="mt-2 text-xs text-gray-300 bg-purple-800/20 border border-purple-700 p-2 rounded">
+                        <span className="font-medium">Score change (sigmoid + effects):</span>{" "}
+                        <span className="font-mono">
+                          100/(1 + e^-(({rawAfter.toFixed(1)} - {mu})/{sigma})) {" - "}
+                          100/(1 + e^-(({rawBefore.toFixed(1)} - {mu})/{sigma})) {" = "}
+                          {signedBase} {" + "}
+                          effects ({signedEffectsStep}) {" = "}
+                          {signedTotal}%
+                        </span>
+                      </div>
+                    );
+                  })()}
 
                   {/* Unluck/Perfect Storm Indicators */}
                   {step.unluckApplied && (
@@ -303,17 +379,40 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                   Total Weighted Sum (before normalization):
                 </span>
                 <span className="text-lg font-bold text-white">
-                  {(Object.keys(weights) as Array<keyof typeof weights>).reduce(
-                    (sum, key) => sum + runState.meterState.hiddenState[key] * weights[key],
-                    0
-                  ).toFixed(1)}
+                  {rawWeightedSum.toFixed(1)}
                 </span>
               </div>
-              <div className="flex items-center justify-between mt-2">
+              <div className="mt-2 text-xs text-gray-300 bg-purple-800/20 border border-purple-700 p-2 rounded">
+                <span className="font-medium">Total Weighted Sum:</span>{" "}
+                <span className="font-mono">
+                  {(Object.keys(weights) as Array<keyof typeof weights>).map((key, idx) => {
+                    const value = hidden[key];
+                    const signed = `${value >= 0 ? "+" : ""}${value.toFixed(1)}`;
+                    return (
+                      <span key={key}>
+                        {idx > 0 && " + "}
+                        ({signed}×{weights[key]})
+                      </span>
+                    );
+                  })}
+                  {" = "}
+                  {rawWeightedSum.toFixed(1)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between mt-4">
                 <span className="text-sm font-medium text-gray-300">
                   Final Score (after sigmoid + effects):
                 </span>
-                <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
+                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
+                  {runState.meterState.displayValue.toFixed(1)}%
+                </span>
+              </div>
+              <div className="mt-2 text-xs text-gray-300 bg-purple-800/20 border border-purple-700 p-2 rounded">
+                <span className="font-medium">Final Score:</span>{" "}
+                <span className="font-mono">
+                  100/(1 + e^-(({rawWeightedSum.toFixed(1)} - {mu})/{sigma})) {" = "}
+                  {baseScore.toFixed(1)} {" + "}
+                  effects ({signedEffects}) {" = "}
                   {runState.meterState.displayValue.toFixed(1)}%
                 </span>
               </div>
