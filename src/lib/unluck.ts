@@ -155,6 +155,39 @@ export function applyUnluckToDeltas(delta: Delta, luckFactor: number): Delta {
   };
 }
 
+// Helper: compute weighted impact sign for deciding unluck mode
+function computeWeightedImpact(delta: Delta, weights: MeterConfig["weights"]): number {
+  return (
+    delta.R * weights.R +
+    delta.U * weights.U +
+    delta.S * weights.S +
+    delta.C * weights.C +
+    delta.I * weights.I
+  );
+}
+
+// Helper: amplify only negative components by a factor (>1 makes losses worse)
+function amplifyNegatives(delta: Delta, factor: number): Delta {
+  return {
+    R: delta.R < 0 ? delta.R * factor : delta.R,
+    U: delta.U < 0 ? delta.U * factor : delta.U,
+    S: delta.S < 0 ? delta.S * factor : delta.S,
+    C: delta.C < 0 ? delta.C * factor : delta.C,
+    I: delta.I < 0 ? delta.I * factor : delta.I,
+  };
+}
+
+// Helper: scale down only positive components by a factor in [0,1]
+function scalePositives(delta: Delta, factor: number): Delta {
+  return {
+    R: delta.R > 0 ? delta.R * factor : delta.R,
+    U: delta.U > 0 ? delta.U * factor : delta.U,
+    S: delta.S > 0 ? delta.S * factor : delta.S,
+    C: delta.C > 0 ? delta.C * factor : delta.C,
+    I: delta.I > 0 ? delta.I * factor : delta.I,
+  };
+}
+
 /**
  * Get unluck message for a specific step/choice
  * @param stepId - Step ID (1-5)
@@ -234,19 +267,23 @@ export function applyPerfectStormPenalties(
   const { scalingGainsReduction, usersReduction, customersReduction, investorsReduction } =
     config.specialUnluck;
 
+  // Symmetric scaling per dimension: positives reduced, negatives amplified
+  const sym = (value: number, reduction: number) =>
+    value >= 0 ? value * (1 - reduction) : value * (1 + reduction);
+
   return {
-    // R (Revenue) and S (System): Additional reduction to positive values only
-    R: delta.R > 0 ? delta.R * (1 - scalingGainsReduction) : delta.R,
-    S: delta.S > 0 ? delta.S * (1 - scalingGainsReduction) : delta.S,
-    
-    // U (Users): Reduce both positive and negative
-    U: delta.U * (1 - usersReduction),
-    
-    // C (Customers): Reduce both positive and negative
-    C: delta.C * (1 - customersReduction),
-    
-    // I (Investors): Reduce both positive and negative
-    I: delta.I * (1 - investorsReduction),
+    // R (Revenue) and S (System): Use scalingGainsReduction symmetrically
+    R: sym(delta.R, scalingGainsReduction),
+    S: sym(delta.S, scalingGainsReduction),
+
+    // U (Users): Use usersReduction symmetrically
+    U: sym(delta.U, usersReduction),
+
+    // C (Customers): Use customersReduction symmetrically
+    C: sym(delta.C, customersReduction),
+
+    // I (Investors): Use investorsReduction symmetrically
+    I: sym(delta.I, investorsReduction),
   };
 }
 
@@ -342,8 +379,12 @@ export function processUnluck(
   // Step 3: Get unluck message
   const unluckMessage = getUnluckMessage(stepId, choice, rng);
 
-  // Step 4: Apply regular unluck
-  let modifiedDelta = applyUnluckToDeltas(delta, luckFactor);
+  // Step 4: Apply regular unluck (respect sign of weighted impact)
+  const weightedImpact = computeWeightedImpact(delta, config.weights);
+
+  let modifiedDelta = weightedImpact >= 0
+    ? scalePositives(delta, luckFactor)                      // reduce gains
+    : amplifyNegatives(delta, 2 - luckFactor);               // amplify losses
 
   // Step 5: Check for Perfect Storm
   const shouldCheckPS = shouldCheckPerfectStorm(stepId, choice, unluckTriggered);

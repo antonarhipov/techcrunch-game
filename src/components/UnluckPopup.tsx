@@ -134,7 +134,7 @@ export function UnluckPopup({
 					<p className="text-sm font-semibold">
 						{isPerfectStorm
 							? "Multiple systems impacted!"
-							: `Gains reduced to ${luckFactorPercent}%`}
+							: "Unlucky break impacted your outcome"}
 					</p>
 				</div>
 

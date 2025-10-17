@@ -75,7 +75,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
             <button
               type="button"
               onClick={() => setShowFormula(!showFormula)}
-              className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+              className="inline-flex items-center gap-2 px-2 py-1 text-lg font-medium rounded border border-purple-600 bg-purple-700/10 text-purple-300 hover:border-purple-500 hover:bg-purple-700/75 transition-colors"
             >
               {showFormula ? "Hide" : "Show"} calculation formula
             </button>
@@ -228,7 +228,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                   {/* Unluck/Perfect Storm Indicators */}
                   {step.unluckApplied && (
                     <div className={`mt-2 p-2 rounded ${
-                      step.perfectStorm ? "bg-red-50 border border-red-200" : "bg-orange-50 border border-orange-200"
+                      "bg-gray-600 border border-gray-400"
                     }`}>
                       <div className="flex items-center gap-2">
                         <span className="text-lg">
@@ -241,7 +241,17 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                             {step.perfectStorm ? "Perfect Storm!" : "Bad Luck!"}
                           </span>
                           <span className="text-gray-300 ml-2">
-                            Gains reduced to {((step.luckFactor ?? 1) * 100).toFixed(0)}%
+                            {(() => {
+                              const luckFactor = step.luckFactor ?? 1;
+                              const amplifyFactor = 2 - luckFactor;
+                              const weightedImpact = (Object.keys(weights) as Array<keyof typeof weights>).reduce(
+                                (sum, key) => sum + step.appliedDelta[key] * weights[key],
+                                0
+                              );
+                              return weightedImpact >= 0
+                                ? `Gains reduced to ${(luckFactor * 100).toFixed(0)}%`
+                                : `Losses amplified by ${((amplifyFactor - 1) * 100).toFixed(0)}%`;
+                            })()}
                           </span>
                         </div>
                       </div>
