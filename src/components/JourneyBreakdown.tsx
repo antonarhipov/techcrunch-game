@@ -206,16 +206,23 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                   {/* Weighted Contribution */}
                   <div className="text-xs text-gray-300 bg-purple-800/20 border border-purple-700 p-2 rounded">
                     <span className="font-medium">Weighted impact:</span>{" "}
-                    {(Object.keys(weights) as Array<keyof typeof weights>).map((key, idx) => {
-                      const value = step.appliedDelta[key];
-                      const weighted = value * weights[key];
-                      return (
-                        <span key={key}>
-                          {idx > 0 && " + "}
-                          {DIMENSION_NAMES[key]}×{weights[key]} = {weighted.toFixed(1)}
-                        </span>
-                      );
-                    })}
+                    <span className="font-mono">
+                      {(Object.keys(weights) as Array<keyof typeof weights>).map((key, idx) => {
+                        const value = step.appliedDelta[key];
+                        const signed = `${value >= 0 ? "+" : ""}${value.toFixed(1)}`;
+                        return (
+                          <span key={key}>
+                            {idx > 0 && " + "}
+                            ({signed}×{weights[key]})
+                          </span>
+                        );
+                      })}
+                      {" = "}
+                      {(Object.keys(weights) as Array<keyof typeof weights>).reduce(
+                        (sum, key) => sum + step.appliedDelta[key] * weights[key],
+                        0
+                      ).toFixed(1)}
+                    </span>
                   </div>
 
                   {/* Unluck/Perfect Storm Indicators */}
