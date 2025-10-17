@@ -13,13 +13,6 @@ interface JourneyBreakdownProps {
   runState: RunState;
 }
 
-const DIMENSION_COLORS = {
-  R: "text-green-600 bg-green-50",
-  U: "text-purple-600 bg-purple-50",
-  S: "text-purple-700 bg-purple-100",
-  C: "text-orange-600 bg-orange-50",
-  I: "text-pink-600 bg-pink-50",
-};
 
 const DIMENSION_NAMES = {
   R: "Revenue",
@@ -154,15 +147,15 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
             {runState.stepHistory.map((step, index) => (
               <div
                 key={step.stepId}
-                className="border border-gray-700 rounded-lg overflow-hidden"
+                className="p-4 bg-gradient-to-r from-purple-900/20 to-orange-900/20 rounded-lg border border-purple-700"
               >
                 {/* Step Header */}
-                <div className="bg-gray-900 px-4 py-3 flex items-center justify-between">
+                <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-lg font-semibold text-gray-300">
+                    <span className="text-lg font-semibold text-white">
                       Step {step.stepId}
                     </span>
-                    <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded">
+                    <span className="px-2 py-1 text-xs font-medium rounded border border-purple-600 bg-purple-700/30 text-purple-300">
                       Choice {step.choice}
                     </span>
                   </div>
@@ -174,7 +167,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     <span className={`text-sm font-semibold ${
-                      step.meterAfter > step.meterBefore ? "text-green-600" : "text-red-600"
+                      step.meterAfter > step.meterBefore ? "text-green-400" : "text-red-400"
                     }`}>
                       {step.meterAfter.toFixed(1)}%
                     </span>
@@ -183,7 +176,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
 
                 {/* Delta Details */}
                 <div className="p-4">
-                  <div className="grid grid-cols-5 gap-2 mb-3">
+                  <div className="grid grid-cols-5 gap-3 mb-3">
                     {(Object.keys(DIMENSION_NAMES) as Array<keyof typeof DIMENSION_NAMES>).map((key) => {
                       const value = step.appliedDelta[key];
                       const isPositive = value > 0;
@@ -192,15 +185,18 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                       return (
                         <div
                           key={key}
-                          className={`text-center p-2 rounded ${DIMENSION_COLORS[key]}`}
+                          className="text-center p-2 rounded"
                         >
-                          <div className="text-xs font-medium mb-1">
+                          <div className="text-xs text-gray-400 mb-1">
                             {DIMENSION_NAMES[key]}
                           </div>
-                          <div className={`text-lg font-bold ${
-                            isPositive ? "text-green-700" : isNegative ? "text-red-700" : "text-gray-600"
+                          <div className={`text-2xl font-bold ${
+                            isPositive ? "text-green-400" : isNegative ? "text-red-400" : "text-gray-300"
                           }`}>
                             {isPositive ? "+" : ""}{value}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            ×{weights[key]} = {(value * weights[key]).toFixed(1)}
                           </div>
                         </div>
                       );
@@ -208,7 +204,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                   </div>
 
                   {/* Weighted Contribution */}
-                  <div className="text-xs text-gray-300 bg-gray-900 p-2 rounded">
+                  <div className="text-xs text-gray-300 bg-purple-800/20 border border-purple-700 p-2 rounded">
                     <span className="font-medium">Weighted impact:</span>{" "}
                     {(Object.keys(weights) as Array<keyof typeof weights>).map((key, idx) => {
                       const value = step.appliedDelta[key];
