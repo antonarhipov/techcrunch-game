@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { UnluckResult } from "@/types/game";
 
 interface UnluckPopupProps {
@@ -20,16 +20,40 @@ export function UnluckPopup({
 	skipAnimations = false,
 }: UnluckPopupProps) {
 	const [isVisible, setIsVisible] = useState(false);
+	const dialogRef = useRef<HTMLDivElement>(null);
 
-	// Auto-dismiss after 5 seconds
+	// Manage visibility, focus, Escape key, and optional scroll lock
 	useEffect(() => {
 		if (unluckResult?.unluckApplied) {
 			setIsVisible(true);
+			// Move focus into the dialog to reliably capture keyboard events
+			requestAnimationFrame(() => dialogRef.current?.focus());
+
+			// Optional: lock background scroll while modal is open
+			const prevOverflow = document.body.style.overflow;
+			document.body.style.overflow = "hidden";
+
+			// Auto-dismiss after 5 seconds
 			const timer = setTimeout(() => {
 				handleClose();
 			}, 5000);
-			return () => clearTimeout(timer);
+
+			// Document-level Escape fallback
+			const onKeyDown = (e: KeyboardEvent) => {
+				if (e.key === "Escape") {
+					e.preventDefault();
+					handleClose();
+				}
+			};
+			document.addEventListener("keydown", onKeyDown);
+
+			return () => {
+				clearTimeout(timer);
+				document.removeEventListener("keydown", onKeyDown);
+				document.body.style.overflow = prevOverflow;
+			};
 		}
+
 		setIsVisible(false);
 	}, [unluckResult]);
 
@@ -55,6 +79,8 @@ export function UnluckPopup({
 
 	return (
 		<div
+			ref={dialogRef}
+			tabIndex={-1}
 			className={`
 				fixed inset-0 z-50 flex items-center justify-center p-4
 				transition-opacity duration-300

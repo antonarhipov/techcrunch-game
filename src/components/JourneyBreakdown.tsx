@@ -26,6 +26,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showFormula, setShowFormula] = useState(false);
   const [openStepFormulas, setOpenStepFormulas] = useState<Record<number, boolean>>({});
+  const [openUnluckDetails, setOpenUnluckDetails] = useState<Record<number, boolean>>({});
 
   const weights = DEFAULT_CONFIG.weights;
   const hidden = runState.meterState.hiddenState;
@@ -330,6 +331,68 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                             })()}
                           </span>
                         </div>
+                      </div>
+
+                      {/* What happened explanation */}
+                      <div className="mt-2 text-xs text-gray-200">
+                        <p className="text-gray-200">
+                          {step.perfectStorm
+                            ? "A rare Perfect Storm combined multiple setbacks at once. Even strong moves struggled to land this turn."
+                            : "Random headwinds hit this turn, so the same choice had a smaller (or harsher) impact than usual."}
+                        </p>
+                        {(() => {
+                          const lf = step.luckFactor;
+                          if (lf === undefined) return null;
+                          const amp = 2 - lf;
+                          return (
+                            <div className="mt-2">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setOpenUnluckDetails((prev) => ({
+                                      ...prev,
+                                      [step.stepId]: !(prev[step.stepId] ?? false),
+                                    }))
+                                  }
+                                  className="inline-flex items-center gap-2 px-2 py-1 text-xs font-medium rounded border border-purple-600 bg-purple-700/30 text-purple-300 hover:border-purple-500 hover:bg-purple-700/40 transition-colors"
+                                >
+                                  {(openUnluckDetails[step.stepId] ?? false) ? "Hide details" : "What happened?"}
+                                </button>
+                                <span className="text-gray-300">
+                                  +deltas × {lf.toFixed(2)} • −deltas × {amp.toFixed(2)}
+                                </span>
+                              </div>
+
+                              {(openUnluckDetails[step.stepId] ?? false) && (() => {
+                                const keys = Object.keys(weights) as Array<keyof typeof weights>;
+                                const affected = keys
+                                  .map((k) => ({ k, v: step.appliedDelta[k], w: Math.abs(step.appliedDelta[k] * weights[k]) }))
+                                  .filter((item) => item.v !== 0)
+                                  .sort((a, b) => b.w - a.w)
+                                  .slice(0, 3);
+                                return (
+                                  <div className="mt-2 bg-purple-800/20 border border-purple-700 p-2 rounded">
+                                    <div className="text-gray-300">
+                                      Most affected: {affected.length === 0
+                                        ? "—"
+                                        : affected.map((a, i) => {
+                                            const name = DIMENSION_NAMES[a.k];
+                                            const signed = `${a.v >= 0 ? "+" : ""}${a.v.toFixed(1)}`;
+                                            return (
+                                              <span key={String(a.k)}>{i > 0 ? ", " : ""}{name} ({signed})</span>
+                                            );
+                                          })}
+                                    </div>
+                                    <div className="mt-1 text-gray-400">
+                                      Positive gains were cut to {(lf * 100).toFixed(0)}% and negatives hit {(amp * 100).toFixed(0)}% strength this turn.
+                                    </div>
+                                  </div>
+                                );
+                              })()}
+                            </div>
+                          );
+                        })()}
                       </div>
                     </div>
                   )}
