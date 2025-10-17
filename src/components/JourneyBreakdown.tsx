@@ -193,7 +193,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                           <div className={`text-2xl font-bold ${
                             isPositive ? "text-green-400" : isNegative ? "text-red-400" : "text-gray-300"
                           }`}>
-                            {isPositive ? "+" : ""}{value}
+                            {isPositive ? "+" : ""}{value.toFixed(1)}
                           </div>
                           <div className="text-xs text-gray-500 mt-1">
                             ×{weights[key]} = {(value * weights[key]).toFixed(1)}
