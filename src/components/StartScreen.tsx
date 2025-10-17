@@ -117,7 +117,7 @@ export function StartScreen() {
 
 				{/* Game Info */}
 				<div className="text-center space-y-2 text-sm text-gray-400">
-					<p>⏱️ Playtime: ~10-15 minutes</p>
+					<p>⏱️ Playtime: ~5-7 minutes</p>
 					<p>🎯 5 key decisions · 32 possible paths · 6 endings</p>
 				</div>
 			</div>
