@@ -97,22 +97,6 @@ export function StartScreen() {
 							{hasSavedRun ? "▶️ Resume Game" : "No Saved Game"}
 						</button>
 					</div>
-
-					{/* Analytics Consent */}
-					<div className="pt-6 border-t border-gray-700">
-						<label className="flex items-start gap-3 cursor-pointer group">
-							<input
-								type="checkbox"
-								checked={analyticsConsent}
-								onChange={(e) => handleConsentChange(e.target.checked)}
-								className="mt-1 w-4 h-4 text-purple-600 border-gray-600 rounded focus:ring-purple-500 focus:ring-2"
-							/>
-							<span className="text-sm text-gray-300 group-hover:text-white">
-								Allow anonymous analytics to help improve the game (no personal
-								information collected)
-							</span>
-						</label>
-					</div>
 				</div>
 
 				{/* Game Info */}
