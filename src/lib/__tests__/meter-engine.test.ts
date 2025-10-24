@@ -17,6 +17,7 @@ import {
   shouldApplyRubberBand,
   applyRubberBandBump,
   updateMeterState,
+  updateMeterStateWithUnluck,
 } from "../meter-engine";
 import { createRNG } from "../rng";
 import { DEFAULT_CONFIG } from "../config";
@@ -380,3 +381,47 @@ describe("Meter Engine", () => {
   });
 });
 
+
+
+// Added tests for hidden-state accumulation semantics
+describe("Hidden state accumulation semantics", () => {
+  it("should accumulate raw deltas across steps (no unluck)", () => {
+    let state = createInitialMeterState();
+    const rng = createRNG(7);
+
+    const d1: Delta = { R: 3, U: -2, S: 0, C: 1, I: 0 };
+    state = updateMeterState(state, d1, rng, DEFAULT_CONFIG);
+    expect(state.hiddenState).toEqual(d1);
+
+    const d2: Delta = { R: -1, U: 4, S: 2, C: -3, I: 5 };
+    state = updateMeterState(state, d2, rng, DEFAULT_CONFIG);
+
+    expect(state.hiddenState).toEqual({
+      R: d1.R + d2.R,
+      U: d1.U + d2.U,
+      S: d1.S + d2.S,
+      C: d1.C + d2.C,
+      I: d1.I + d2.I,
+    });
+  });
+
+  it("should accumulate the post-unluck delta when unluck modifies the step", () => {
+    let state = createInitialMeterState();
+    const rng = createRNG(123);
+    const d: Delta = { R: 10, U: 0, S: 0, C: 0, I: 0 };
+
+    const { meterState } = updateMeterStateWithUnluck(
+      state,
+      d,
+      1,
+      "A",
+      rng,
+      DEFAULT_CONFIG,
+      { forceUnluck: true, unluckFactorOverride: 0.5 }
+    );
+
+    // Weighted impact is positive; regular unluck scales positives by factor
+    expect(meterState.hiddenState.R).toBeCloseTo(5, 5);
+    expect(meterState.lastDelta?.R).toBeCloseTo(5, 5);
+  });
+});

@@ -185,19 +185,16 @@ export function updateMeterState(
 ): MeterState {
   const oldDisplayValue = state.displayValue;
 
-  // Step 1: Apply delta to hidden state
-  let newHiddenState = applyDeltaToHiddenState(state.hiddenState, delta);
+  // Step 1: Apply delta to hidden state (accumulate raw deltas)
+  const accumulatedHidden = applyDeltaToHiddenState(state.hiddenState, delta);
 
-  // Step 2: Apply diminishing returns
-  if (config.diminishingReturns.enabled) {
-    newHiddenState = applyDiminishingReturns(
-      newHiddenState,
-      config.diminishingReturns.power
-    );
-  }
+  // Step 2: Derive effective hidden state for scoring (apply diminishing returns only for calculation)
+  const effectiveHidden = config.diminishingReturns.enabled
+    ? applyDiminishingReturns(accumulatedHidden, config.diminishingReturns.power)
+    : accumulatedHidden;
 
-  // Step 3: Compute weighted sum
-  const weightedSum = computeWeightedSum(newHiddenState, config.weights);
+  // Step 3: Compute weighted sum using effective hidden state
+  const weightedSum = computeWeightedSum(effectiveHidden, config.weights);
 
   // Step 4: Normalize to [0, 100] using sigmoid
   let meterValue = normalizeMeter(weightedSum, config);
@@ -223,7 +220,7 @@ export function updateMeterState(
   // This is handled by the game flow, not here
 
   return {
-    hiddenState: newHiddenState,
+    hiddenState: accumulatedHidden,
     displayValue: finalValue,
     tier,
     lastDelta: delta,

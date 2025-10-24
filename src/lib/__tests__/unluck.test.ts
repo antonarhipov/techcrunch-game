@@ -271,24 +271,26 @@ describe("Unluck System", () => {
         expect(result.I).toBeCloseTo(3.6, 5);
       });
 
-      it("should reduce negative values for U, C, I", () => {
+      it("should amplify negative values for U, C, I", () => {
         const delta: Delta = { R: 0, U: -10, S: 0, C: -8, I: -6 };
         const result = applyPerfectStormPenalties(delta, DEFAULT_CONFIG);
 
-        // U: -10 * 0.5 = -5
-        // C: -8 * 0.3 = -2.4
-        // I: -6 * 0.6 = -3.6
-        expect(result.U).toBeCloseTo(-5, 5);
-        expect(result.C).toBeCloseTo(-2.4, 5);
-        expect(result.I).toBeCloseTo(-3.6, 5);
+        // Symmetric scaling: negatives are amplified by (1 + reduction)
+        // U: -10 * (1 + 0.5) = -15
+        // C: -8 * (1 + 0.7) = -13.6
+        // I: -6 * (1 + 0.4) = -8.4
+        expect(result.U).toBeCloseTo(-15, 5);
+        expect(result.C).toBeCloseTo(-13.6, 5);
+        expect(result.I).toBeCloseTo(-8.4, 5);
       });
 
-      it("should not reduce negative R and S", () => {
+      it("should amplify negative R and S", () => {
         const delta: Delta = { R: -10, U: 0, S: -8, C: 0, I: 0 };
         const result = applyPerfectStormPenalties(delta, DEFAULT_CONFIG);
 
-        expect(result.R).toBe(-10); // Negative unchanged
-        expect(result.S).toBe(-8); // Negative unchanged
+        // Symmetric scaling with scalingGainsReduction = 0.5
+        expect(result.R).toBeCloseTo(-15, 5);
+        expect(result.S).toBeCloseTo(-12, 5);
       });
     });
 

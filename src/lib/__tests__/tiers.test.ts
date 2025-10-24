@@ -256,7 +256,7 @@ describe("Tier System", () => {
       expect(getTierGradientClass("crash")).toContain("red");
       expect(getTierGradientClass("finding-fit")).toContain("orange");
       expect(getTierGradientClass("gaining-steam")).toContain("yellow");
-      expect(getTierGradientClass("scaling-up")).toContain("green");
+      expect(getTierGradientClass("scaling-up")).toContain("purple");
       expect(getTierGradientClass("breakout")).toContain("purple");
     });
 

@@ -37,7 +37,7 @@ export const DEFAULT_CONFIG: MeterConfig = {
   // Random noise to add variation
   randomness: {
     enabled: true,
-    bounds: [-5, 5], // Random value in [-5, +5] range
+    bounds: [-2, 5], // Random value in [-2, +5] range
   },
 
   // Diminishing returns on high dimension values

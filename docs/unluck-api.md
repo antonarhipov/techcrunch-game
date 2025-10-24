@@ -121,11 +121,11 @@ function applyPerfectStormPenalties(
 ```
 
 **Penalties (default config):**
-- **R (Revenue)**: 50% additional reduction (positive only)
-- **U (Users)**: 50% reduction (both positive and negative)
-- **S (System)**: 50% additional reduction (positive only)
-- **C (Customers)**: 70% reduction (both positive and negative)
-- **I (Investors)**: 40% reduction (both positive and negative)
+- **R (Revenue):** 50% symmetric scaling — positives reduced by 50%, negatives amplified by 50%
+- **U (Users):** 50% symmetric scaling — positives reduced, negatives amplified
+- **S (System):** 50% symmetric scaling — positives reduced, negatives amplified
+- **C (Customers):** 70% symmetric scaling — positives reduced, negatives amplified
+- **I (Investors):** 40% symmetric scaling — positives reduced, negatives amplified
 
 ### `getUnluckMessage()`
 
@@ -179,6 +179,8 @@ interface StepResult {
 ```
 
 ## Integration with Meter Engine
+
+> Note on hidden state (2025-10-24): Deltas now accumulate in the hidden 5-D state exactly as applied each step (after any unluck/Perfect Storm modifications). Diminishing returns are applied only to a derived copy for scoring/visualization, not stored back into hiddenState. This keeps JourneyBreakdown math and the final "Final State" readout consistent with the sum of applied deltas.
 
 ### `updateMeterStateWithUnluck()`
 

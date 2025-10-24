@@ -95,6 +95,7 @@ This document contains the detailed technical task list for building the **Choos
 - [x] **2.1.10** Implement `updateMeterState(state: MeterState, delta: Delta, rng: SeededRNG, config: MeterConfig): MeterState` orchestrating all calculations
 - [x] **2.1.11** Store applied delta in `MeterState.lastDelta` for display purposes
 - [x] **2.1.12** Write unit tests: verify each calculation step, verify clamping, verify determinism with fixed seed
+- [x] **2.1.13** Ensure deltas accumulate in hidden state; apply diminishing returns only for scoring (store raw cumulative hiddenState)
 
 ### 2.2 Momentum and Streak Tracking
 *Plan: 2.2 | Requirements: 5*
@@ -366,7 +367,8 @@ This document contains the detailed technical task list for building the **Choos
 - [x] **6.4.8** Animate tier badge change with fade/scale effect when tier changes
 - [x] **6.4.9** Display 1-2 insights below meter if `showInsights` is true
 - [x] **6.4.10** Style insights as small text with icons (e.g., "💰 Revenue momentum strong")
-- [x] **6.4.11** Implement tier color gradient: crash (red), finding-fit (orange), gaining-steam (yellow), scaling-up (green), breakout (blue/purple)
+- [x] **6.4.11** Implement tier color gradient: crash (red), finding-fit (orange), gaining-steam (yellow), scaling-up (purple), breakout (blue/purple)
+  *Note: Palette updated on 2025-10-24 — 'scaling-up' gradient is purple (UI revamp).*
 - [x] **6.4.12** Add accessible text alternatives for visual-only info (aria-label for meter bar)
 - [x] **6.4.13** Test meter with edge values: 0, 50, 100, tier boundaries (29→30, 49→50, etc.)
 - [x] **6.4.14** Ensure animations respect `skipAnimations` feature flag
@@ -428,6 +430,7 @@ This document contains the detailed technical task list for building the **Choos
 - [x] **6.7.15** Display 1-2 alternate path hints: "Curious what happens if you choose Option B at Step 2?"
 - [x] **6.7.16** Style ending screen with celebration visuals (confetti for high scores, etc.)
 - [x] **6.7.17** Test with all ending tiers (0-100 range)
+- [x] **6.7.18** Display run seed in Journey Breakdown header for reproducibility
 
 ### 6.8 Unluck Popup Component
 *Plan: 6.8 | Requirements: 8, 9*

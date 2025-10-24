@@ -6,11 +6,12 @@
  */
 
 import { useState } from "react";
-import type { RunState } from "@/types/game";
+import type { RunState, MeterConfig } from "@/types/game";
 import { DEFAULT_CONFIG } from "@/lib/config";
 
 interface JourneyBreakdownProps {
   runState: RunState;
+  config?: MeterConfig;
 }
 
 
@@ -22,19 +23,19 @@ const DIMENSION_NAMES = {
   I: "Investors",
 };
 
-export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
+export function JourneyBreakdown({ runState, config = DEFAULT_CONFIG }: JourneyBreakdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showFormula, setShowFormula] = useState(false);
   const [openStepFormulas, setOpenStepFormulas] = useState<Record<number, boolean>>({});
   const [openUnluckDetails, setOpenUnluckDetails] = useState<Record<number, boolean>>({});
 
-  const weights = DEFAULT_CONFIG.weights;
+  const weights = config.weights;
   const hidden = runState.meterState.hiddenState;
   const rawWeightedSum = (Object.keys(weights) as Array<keyof typeof weights>).reduce(
     (sum, key) => sum + hidden[key] * weights[key],
     0
   );
-  const { mu, sigma } = DEFAULT_CONFIG.sigmoid;
+  const { mu, sigma } = config.sigmoid;
   const sigmoid = (x: number) => 100 / (1 + Math.exp(-(x - mu) / sigma));
   const baseScore = sigmoid(rawWeightedSum);
   const effectsDelta = runState.meterState.displayValue - baseScore;
@@ -57,6 +58,10 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
             <p className="text-sm text-gray-300">
               See how each choice impacted your score
             </p>
+            <div className="mt-1 text-xs text-gray-400">
+              <span className="mr-1">Seed:</span>
+              <code className="px-1 py-0.5 rounded bg-gray-900 border border-gray-700 text-gray-200">{runState.seed}</code>
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -132,7 +137,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                     Score = 100 / (1 + e<sup>-(Raw - μ) / σ</sup>)
                   </div>
                   <p className="mt-2 text-xs text-gray-400">
-                    Maps the raw score to 0-100 range with smooth transitions (μ={DEFAULT_CONFIG.sigmoid.mu}, σ={DEFAULT_CONFIG.sigmoid.sigma}).
+                    Maps the raw score to 0-100 range with smooth transitions (μ={config.sigmoid.mu}, σ={config.sigmoid.sigma}).
                   </p>
                 </div>
 
@@ -140,10 +145,10 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                 <div className="bg-gray-800 p-3 rounded border border-gray-700">
                   <p className="font-medium mb-2">Additional Mechanics</p>
                   <ul className="text-xs text-gray-400 space-y-1 list-disc list-inside">
-                    <li>Random noise (±5) adds unpredictability</li>
-                    <li>Momentum bonus (+3) for {DEFAULT_CONFIG.momentum.streakThreshold}+ consecutive gains</li>
-                    <li>Rubber-band (+2 to System) helps if score drops below {DEFAULT_CONFIG.rubberBand.threshold}</li>
-                    <li>Unluck events ({DEFAULT_CONFIG.unluck.probability * 100}% chance) reduce positive gains by {DEFAULT_CONFIG.unluck.factorRange[0] * 100}-{DEFAULT_CONFIG.unluck.factorRange[1] * 100}%</li>
+                    <li>Random noise (±{config.randomness.bounds[1]}) adds unpredictability</li>
+                    <li>Momentum bonus (+{config.momentum.bonus}) for {config.momentum.streakThreshold}+ consecutive gains</li>
+                    <li>Rubber-band (+{config.rubberBand.bump} to System) helps if score drops below {config.rubberBand.threshold}</li>
+                    <li>Unluck events ({config.unluck.probability * 100}% chance) reduce positive gains by {config.unluck.factorRange[0] * 100}-{config.unluck.factorRange[1] * 100}%</li>
                   </ul>
                 </div>
               </div>
@@ -326,7 +331,7 @@ export function JourneyBreakdown({ runState }: JourneyBreakdownProps) {
                                 0
                               );
                               return weightedImpact >= 0
-                                ? `Gains reduced to ${(luckFactor * 100).toFixed(0)}%`
+                                ? `Gains reduced to ${(100 - luckFactor * 100).toFixed(0)}%`
                                 : `Losses amplified by ${((amplifyFactor - 1) * 100).toFixed(0)}%`;
                             })()}
                           </span>
