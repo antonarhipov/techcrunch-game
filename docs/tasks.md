@@ -837,6 +837,7 @@ This document contains the detailed technical task list for building the **Choos
 - [ ] **11.2.8** Document testing strategy and how to run tests
 - [ ] **11.2.9** Document deployment process
 - [ ] **11.2.10** Add inline code comments for complex logic (meter engine, unluck, endings)
+- [x] **11.2.11** Document Simulation Page usage and seed acquisition (docs/simulation.md), link from README
 
 ### 11.3 Deployment Configuration
 *Plan: 11.3 | Requirements: 1, 2*

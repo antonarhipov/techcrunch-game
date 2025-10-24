@@ -154,6 +154,7 @@ techcrunch-game/
 2. **`docs/plan.md`** - Development milestones and implementation phases
 3. **`docs/tasks.md`** - Detailed technical task checklist
 4. **`docs/spec.md`** - Game design specification
+5. **`docs/simulation.md`** - Simulation page usage and seed reproducibility
 
 ### Key Systems
 
