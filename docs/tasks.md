@@ -553,6 +553,8 @@ This document contains the detailed technical task list for building the **Choos
 - [x] **7.3.13** Add optional code diffs to 2-3 scripts (e.g., Step 1A shows Stripe code, Step 2A shows HTML)
 - [x] **7.3.14** Implement `getConsoleScript(stepId: number, choice: "A" | "B"): ConsoleScript` lookup function
 - [x] **7.3.15** Integrate with JunieConsole component: stream logs with timing (100-300ms between entries)
+- [x] **7.3.16** Display warning logs in Junie Console when Unluck or Perfect Storm occurs (alert icon, red text)
+  *Note: Added per issue on 2025-10-25 to improve visibility of setbacks.*
 
 ### 7.4 Asset Loading and Fallbacks
 *Plan: 7.4 | Requirements: 16*

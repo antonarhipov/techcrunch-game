@@ -109,17 +109,18 @@ interface LogEntryComponentProps {
 
 function LogEntryComponent({ log, index }: LogEntryComponentProps) {
 	const getLogColor = (type: LogType): string => {
-		switch (type) {
-			case "success":
-				return "text-green-400";
-			case "warning":
-				return "text-yellow-400";
-			case "error":
-				return "text-red-400";
-		case "info":
-		default:
-			return "text-purple-400";
-		}
+			switch (type) {
+				case "success":
+					return "text-green-400";
+				case "warning":
+					// Requirement: warnings should show with alert icon and red text color
+					return "text-red-400";
+				case "error":
+					return "text-red-400";
+			case "info":
+			default:
+				return "text-purple-400";
+			}
 	};
 
 	const getLogIcon = (type: LogType): string => {
@@ -138,6 +139,7 @@ function LogEntryComponent({ log, index }: LogEntryComponentProps) {
 
 	const colorClass = getLogColor(log.type);
 	const icon = getLogIcon(log.type);
+	const textClass = (log.type === "warning" || log.type === "error") ? colorClass : "text-gray-300";
 
 	return (
 		<div
@@ -153,7 +155,7 @@ function LogEntryComponent({ log, index }: LogEntryComponentProps) {
 
 			{/* Icon and message */}
 			<span className={`${colorClass} mr-2`}>{icon}</span>
-			<span className="text-gray-300">{log.text}</span>
+			<span className={textClass}>{log.text}</span>
 
 			{/* Code diff (if provided) */}
 			{log.codeDiff && (

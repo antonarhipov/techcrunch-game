@@ -137,8 +137,23 @@ export default function Home() {
       // Get a console script for this step/choice
       const script = getConsoleScript(result.stepResult.stepId, choice);
       
-      // Stream console logs
-      streamConsoleLogs(script.logs);
+      // Stream console logs, with warnings for unluck/perfect storm when they occur
+      const logsToStream: LogEntry[] = [...script.logs];
+      if (result.stepResult.unluckApplied) {
+        const luckFactor = result.stepResult.luckFactor ?? 1.0;
+        const luckPct = Math.round(luckFactor * 100);
+        logsToStream.push({
+          type: "warning",
+          text: `Bad luck event: outcomes were impacted (luck factor ${luckPct}%). Positive gains were reduced and negative effects amplified.`,
+        });
+        if (result.stepResult.perfectStorm) {
+          logsToStream.push({
+            type: "warning",
+            text: "Perfect Storm: a severe, compounding setback hit multiple systems (Revenue, Users, Customers, Investors).",
+          });
+        }
+      }
+      streamConsoleLogs(logsToStream);
 
       // Record step result
       recordStepResult(result.stepResult, result.newMeterState);
