@@ -324,26 +324,25 @@ export function JourneyBreakdown({ runState, config = DEFAULT_CONFIG }: JourneyB
                           </span>
                           <span className="text-gray-300 ml-2">
                             {(() => {
-                              const luckFactor = step.luckFactor ?? 1;
-                              const amplifyFactor = 2 - luckFactor;
-                              const weightedImpact = (Object.keys(weights) as Array<keyof typeof weights>).reduce(
-                                (sum, key) => sum + step.appliedDelta[key] * weights[key],
-                                0
-                              );
-                              return weightedImpact >= 0
-                                ? `Gains reduced to ${(100 - luckFactor * 100).toFixed(0)}%`
-                                : `Losses amplified by ${((amplifyFactor - 1) * 100).toFixed(0)}%`;
+                              const unluckMsg = step.unluckMessage ?? "Something unexpected went wrong, but you'll recover.";
+                              const luckPct = Math.round((step.luckFactor ?? 1) * 100);
+                              return `${unluckMsg} Gains trimmed to ${luckPct}%.`;
                             })()}
                           </span>
                         </div>
                       </div>
+                      {step.perfectStorm && !(step.unluckMessage?.includes("PERFECT STORM")) && (
+                        <div className="mt-1 text-xs text-gray-300">
+                          Perfect Storm: a severe, compounding setback hit multiple systems (Revenue, Users, Customers, Investors).
+                        </div>
+                      )}
 
                       {/* What happened explanation */}
                       <div className="mt-2 text-xs text-gray-200">
                         <p className="text-gray-200">
                           {step.perfectStorm
                             ? "A rare Perfect Storm combined multiple setbacks at once. Even strong moves struggled to land this turn."
-                            : "Random headwinds hit this turn, so the same choice had a smaller (or harsher) impact than usual."}
+                            : ""}
                         </p>
                         {(() => {
                           const lf = step.luckFactor;

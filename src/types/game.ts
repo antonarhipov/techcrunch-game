@@ -207,6 +207,8 @@ export interface StepResult {
   unluckApplied: boolean;
   /** Luck factor if unluck was applied */
   luckFactor?: number;
+  /** Exact unluck narrative for Journey/Console parity */
+  unluckMessage?: string | null;
   /** Whether Perfect Storm was triggered */
   perfectStorm: boolean;
   /** ISO timestamp */

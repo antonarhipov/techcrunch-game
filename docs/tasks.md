@@ -148,6 +148,7 @@ This document contains the detailed technical task list for building the **Choos
 - [x] **3.1.8** Implement `getUnluckMessage(stepId: number, choice: "A" | "B", rng: SeededRNG): string` selecting message deterministically
 - [x] **3.1.9** Implement `createUnluckResult(unluckApplied: boolean, luckFactor: number, message: string | null, perfectStorm: boolean): UnluckResult`
 - [x] **3.1.10** Write unit tests: verify probability rolls, verify factor in range, verify message determinism, verify only positives scaled
+- [x] **3.1.11** Replace generic unluck messages with stage‑linked creative content pack (30+ variants)
 
 ### 3.2 Perfect Storm Implementation
 *Plan: 3.2 | Requirements: 9*
@@ -555,6 +556,8 @@ This document contains the detailed technical task list for building the **Choos
 - [x] **7.3.15** Integrate with JunieConsole component: stream logs with timing (100-300ms between entries)
 - [x] **7.3.16** Display warning logs in Junie Console when Unluck or Perfect Storm occurs (alert icon, red text)
   *Note: Added per issue on 2025-10-25 to improve visibility of setbacks.*
+- [x] **7.3.17** Surface exact Unluck/Perfect Storm narrative in Junie Console logs (use `UnluckResult.message`; include luck factor)
+- [x] **7.3.18** Mirror unluck narratives in Journey map to match Junie Console (persist message in StepResult; show "Gains trimmed to {luckPct}%").
 
 ### 7.4 Asset Loading and Fallbacks
 *Plan: 7.4 | Requirements: 16*

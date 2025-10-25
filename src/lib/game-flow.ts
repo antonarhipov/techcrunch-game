@@ -23,6 +23,8 @@ export interface StepProgressionResult {
   newMeterState: MeterState;
   /** Step result metadata */
   stepResult: StepResult;
+  /** Unluck metadata for this step */
+  unluckResult: import("@/types/game").UnluckResult;
   /** Whether the game is complete (all 5 steps done) */
   isGameComplete: boolean;
 }
@@ -99,6 +101,7 @@ export function processStepChoice(
     insights,
     unluckApplied: unluckResult.unluckApplied,
     luckFactor: unluckResult.luckFactor,
+    unluckMessage: unluckResult.message,
     perfectStorm: unluckResult.perfectStorm,
     timestamp: new Date().toISOString(),
   };
@@ -109,6 +112,7 @@ export function processStepChoice(
   return {
     newMeterState,
     stepResult,
+    unluckResult,
     isGameComplete,
   };
 }

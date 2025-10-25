@@ -120,17 +120,13 @@ export default function Home() {
       // Process step using game flow
       const result = processStepChoice(runState, choice, contentPack, featureFlags);
 
-      // Store unluck result for popup
-      if (result.stepResult.unluckApplied) {
+      // Store unluck result for popup (use exact message from Unluck system)
+      if (result.stepResult.unluckApplied && result.unluckResult) {
         setUnluckResult({
           unluckApplied: true,
-          luckFactor: result.stepResult.luckFactor || 1.0,
-          message: result.stepResult.unluckApplied 
-            ? (result.stepResult.perfectStorm 
-              ? "Perfect Storm!"
-              : "Bad Luck!")
-            : null,
-          perfectStorm: result.stepResult.perfectStorm,
+          luckFactor: result.unluckResult.luckFactor || 1.0,
+          message: result.unluckResult.message || null,
+          perfectStorm: result.unluckResult.perfectStorm,
         });
       }
 
@@ -140,13 +136,23 @@ export default function Home() {
       // Stream console logs, with warnings for unluck/perfect storm when they occur
       const logsToStream: LogEntry[] = [...script.logs];
       if (result.stepResult.unluckApplied) {
-        const luckFactor = result.stepResult.luckFactor ?? 1.0;
+        const luckFactor = result.unluckResult?.luckFactor ?? result.stepResult.luckFactor ?? 1.0;
         const luckPct = Math.round(luckFactor * 100);
-        logsToStream.push({
-          type: "warning",
-          text: `Bad luck event: outcomes were impacted (luck factor ${luckPct}%). Positive gains were reduced and negative effects amplified.`,
-        });
-        if (result.stepResult.perfectStorm) {
+        const unluckMsg = result.unluckResult?.message;
+        if (unluckMsg) {
+          logsToStream.push({
+            type: "warning",
+            text: `${unluckMsg} Gains trimmed to ${luckPct}%.`,
+          });
+        } else {
+          // Fallback (should not happen): generic warning
+          logsToStream.push({
+            type: "warning",
+            text: `Bad luck event: outcomes were impacted (luck factor ${luckPct}%). Positive gains were reduced and negative effects amplified.`,
+          });
+        }
+        if (result.stepResult.perfectStorm && !unluckMsg?.includes("PERFECT STORM")) {
+          // If message didn't already convey Perfect Storm, add a brief summary
           logsToStream.push({
             type: "warning",
             text: "Perfect Storm: a severe, compounding setback hit multiple systems (Revenue, Users, Customers, Investors).",
